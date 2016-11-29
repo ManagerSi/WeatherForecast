@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WeatherDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="WeatherDBStoreContainer">
+    <EntitySet Name="BASE_EMPLOYEE" EntityType="WeatherDB.Store.BASE_EMPLOYEE" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BASE_USER" EntityType="WeatherDB.Store.BASE_USER" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="BASE_EMPLOYEE">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="decimal" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="EmpType" Type="decimal" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Age" Type="int" />
+    <Property Name="State" Type="char" MaxLength="10" />
+    <Property Name="CreateTime" Type="datetime" />
+    <Property Name="Mobile" Type="varchar" MaxLength="50" />
+    <Property Name="Address" Type="nvarchar(max)" />
+    <Property Name="Sex" Type="char" MaxLength="10" />
+    <Property Name="UpdateTime" Type="datetime" />
+    <Property Name="UpdateID" Type="decimal" />
+  </EntityType>
+  <EntityType Name="BASE_USER">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="decimal" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="UserAccount" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserPWD" Type="nvarchar" MaxLength="50" />
+    <Property Name="State" Type="char" MaxLength="10" />
+    <Property Name="UpdateTime" Type="datetime" />
+    <Property Name="UpdateID" Type="decimal" />
+  </EntityType>
+</Schema>
