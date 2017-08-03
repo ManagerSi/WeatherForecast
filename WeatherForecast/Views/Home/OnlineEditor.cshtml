@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "OnlineEditor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/Scripts/kindeditor-4.1.7/themes/default/default.css" />
+<link rel="stylesheet" href="~/Scripts/kindeditor-4.1.7/plugins/code/prettify.css" />
+<script charset="utf-8" src="~/Scripts/kindeditor-4.1.7/kindeditor.js"></script>
+<script charset="utf-8" src="~/Scripts/kindeditor-4.1.7/lang/zh_CN.js"></script>
+<script charset="utf-8" src="~/Scripts/kindeditor-4.1.7/plugins/code/prettify.js"></script>
+<script charset="utf-8" src="~/Scripts/jquery-2.1.4.min.js"></script>
+<script>
+        var editor1;
+		KindEditor.ready(function(K) {
+			 editor1 = K.create('#content1', {
+			    cssPath: '~/Scripts/kindeditor-4.1.7/plugins/code/prettify.css',
+			    uploadJson: '~/Scripts/kindeditor-4.1.7/asp.net/upload_json.ashx',
+			    fileManagerJson: '~/Scripts/kindeditor-4.1.7/asp.net/file_manager_json.ashx',
+				allowFileManager : true,
+				afterCreate : function() {
+					var self = this;
+					K.ctrl(document, 13, function() {
+					    self.sync();
+						K('form[name=example]')[0].submit();
+					});
+					K.ctrl(self.edit.doc, 13, function() {
+						self.sync();
+						K('form[name=example]')[0].submit();
+					});
+				}
+			});
+			prettyPrint();
+		});
+</script>
+
+<h2>OnlineEditor</h2>
+
+<form id="example" >
+    <textarea id="content1" cols="100" rows="8" style="width:700px;height:200px;visibility:hidden;"></textarea>
+    <br />
+    <input type="button" value="提交内容" /> (提交快捷键: Ctrl + Enter)
+</form>
+
+<textarea id="aa"></textarea>
+<input type = "button" id="bb" value ="获取内容" />
+<script>
+    $(document).ready(function () {
+        $("#bb").click(function () {
+            editor1.sync();
+            var content = $("#content1").val();
+            console.log(content);
+            $("#aa").val(content);
+        });
+    });
+</script>

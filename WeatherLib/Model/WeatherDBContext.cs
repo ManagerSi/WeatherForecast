@@ -26,8 +26,8 @@ namespace WeatherLib.Model
     }
 
     #region 单实例 (Per request)
-    private const string kDBContextKEY = "tsic_ctx";
-    private const string kDBTranscationKEY = "tsic_trans";
+    private const string kDBContextKEY = "weather_ctx";
+    private const string kDBTranscationKEY = "weather_trans";
 
 
 

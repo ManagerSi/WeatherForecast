@@ -1,0 +1,14 @@
+/SI.DB.SqlServer/obj
+/SI.DB.SqlServer/bin
+/Test/obj
+/Test/bin
+/MyWindowsFormsApplication/obj
+/MyWindowsFormsApplication/bin
+/SI.DB.Interface/obj
+/SI.DB.Interface/bin
+/SI.DB.MySql/obj
+/SI.DB.MySql/bin
+/DesignPatternsTest/obj
+/DesignPatternsTest/bin
+bin
+obj

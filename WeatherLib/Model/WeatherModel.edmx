@@ -4,38 +4,122 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="WeatherDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="WeatherDBStoreContainer">
-          <EntitySet Name="BASE_EMPLOYEE" EntityType="WeatherDB.Store.BASE_EMPLOYEE" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="BASE_USER" EntityType="WeatherDB.Store.BASE_USER" store:Type="Tables" Schema="dbo" />
-        </EntityContainer>
+    <Schema Namespace="WeatherDB.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="BASE_EMPLOYEE">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="decimal" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="EmpType" Type="decimal" />
+          <Property Name="ID" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpType" Type="decimal" Precision="18" Scale="0" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="Age" Type="int" />
-          <Property Name="State" Type="char" MaxLength="10" />
+          <Property Name="State" Type="char" MaxLength="1" />
           <Property Name="CreateTime" Type="datetime" />
           <Property Name="Mobile" Type="varchar" MaxLength="50" />
-          <Property Name="Address" Type="nvarchar(max)" />
-          <Property Name="Sex" Type="char" MaxLength="10" />
+          <Property Name="Address" Type="nvarchar" MaxLength="500" />
+          <Property Name="Sex" Type="int" />
           <Property Name="UpdateTime" Type="datetime" />
-          <Property Name="UpdateID" Type="decimal" />
+          <Property Name="UpdateID" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="BASE_ROLE">
+          <Key>
+            <PropertyRef Name="ROLE_ID" />
+          </Key>
+          <Property Name="ROLE_ID" Type="numeric" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DATA_AUTH_ID" Type="numeric" Precision="10" Scale="0" />
+          <Property Name="ROLE_NAME" Type="varchar" MaxLength="100" />
+          <Property Name="ALLOW_DEL" Type="varchar" MaxLength="1" />
+          <Property Name="DEFAULT_ROLE" Type="varchar" MaxLength="1" />
+          <Property Name="REMARK" Type="varchar" MaxLength="500" />
+          <Property Name="STATE" Type="varchar" MaxLength="2" />
+          <Property Name="SORT" Type="numeric" Precision="10" Scale="0" />
         </EntityType>
         <EntityType Name="BASE_USER">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="decimal" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="UserAccount" Type="nvarchar" MaxLength="50" />
-          <Property Name="UserPWD" Type="nvarchar" MaxLength="50" />
-          <Property Name="State" Type="char" MaxLength="10" />
+          <Property Name="ID" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserAccount" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="UserPWD" Type="nvarchar" MaxLength="20" />
+          <Property Name="State" Type="char" MaxLength="1" />
           <Property Name="UpdateTime" Type="datetime" />
-          <Property Name="UpdateID" Type="decimal" />
+          <Property Name="UpdateID" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Emp_ID" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
+        <EntityType Name="BASE_USER_ROLE">
+          <Key>
+            <PropertyRef Name="USER_ROLE_ID" />
+          </Key>
+          <Property Name="USER_ROLE_ID" Type="numeric" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="USER_ID" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ROLE_ID" Type="numeric" Precision="10" Scale="0" />
+        </EntityType>
+        <EntityType Name="JD_Product">
+          <Key>
+            <PropertyRef Name="pid" />
+          </Key>
+          <Property Name="pid" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="sku" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="url" Type="nchar" MaxLength="500" />
+          <Property Name="img" Type="nchar" MaxLength="1000" />
+          <Property Name="price" Type="float" />
+          <Property Name="title" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_BASE_USE_REFERENCE_BASE_ROL">
+          <End Role="BASE_ROLE" Type="Self.BASE_ROLE" Multiplicity="0..1" />
+          <End Role="BASE_USER_ROLE" Type="Self.BASE_USER_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BASE_ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Principal>
+            <Dependent Role="BASE_USER_ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASE_USER_BASE_EMPLOYEE">
+          <End Role="BASE_EMPLOYEE" Type="Self.BASE_EMPLOYEE" Multiplicity="0..1" />
+          <End Role="BASE_USER" Type="Self.BASE_USER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BASE_EMPLOYEE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BASE_USER">
+              <PropertyRef Name="Emp_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASE_USER_ROLE_BASE_USER">
+          <End Role="BASE_USER" Type="Self.BASE_USER" Multiplicity="0..1" />
+          <End Role="BASE_USER_ROLE" Type="Self.BASE_USER_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BASE_USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BASE_USER_ROLE">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WeatherDBStoreContainer">
+          <EntitySet Name="BASE_EMPLOYEE" EntityType="Self.BASE_EMPLOYEE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BASE_ROLE" EntityType="Self.BASE_ROLE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BASE_USER" EntityType="Self.BASE_USER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BASE_USER_ROLE" EntityType="Self.BASE_USER_ROLE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JD_Product" EntityType="Self.JD_Product" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BASE_USE_REFERENCE_BASE_ROL" Association="Self.FK_BASE_USE_REFERENCE_BASE_ROL">
+            <End Role="BASE_ROLE" EntitySet="BASE_ROLE" />
+            <End Role="BASE_USER_ROLE" EntitySet="BASE_USER_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASE_USER_BASE_EMPLOYEE" Association="Self.FK_BASE_USER_BASE_EMPLOYEE">
+            <End Role="BASE_EMPLOYEE" EntitySet="BASE_EMPLOYEE" />
+            <End Role="BASE_USER" EntitySet="BASE_USER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASE_USER_ROLE_BASE_USER" Association="Self.FK_BASE_USER_ROLE_BASE_USER">
+            <End Role="BASE_USER" EntitySet="BASE_USER" />
+            <End Role="BASE_USER_ROLE" EntitySet="BASE_USER_ROLE" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -43,34 +127,124 @@
         <EntityContainer Name="WeatherDBContext" p1:LazyLoadingEnabled="true">
           <EntitySet Name="BASE_EMPLOYEE" EntityType="WeatherDB.BaseEmployee" />
           <EntitySet Name="BASE_USER" EntityType="WeatherDB.BaseUser" />
+          <AssociationSet Name="FK_BASE_USER_BASE_EMPLOYEE" Association="WeatherDB.FK_BASE_USER_BASE_EMPLOYEE">
+            <End Role="BASE_EMPLOYEE" EntitySet="BASE_EMPLOYEE" />
+            <End Role="BASE_USER" EntitySet="BASE_USER" />
+          </AssociationSet>
+          <EntitySet Name="BASE_ROLE" EntityType="WeatherDB.BASE_ROLE" />
+          <EntitySet Name="BASE_USER_ROLE" EntityType="WeatherDB.BASE_USER_ROLE" />
+          <EntitySet Name="JD_Product" EntityType="WeatherDB.JD_Product" />
+          <AssociationSet Name="FK_BASE_USE_REFERENCE_BASE_ROL" Association="WeatherDB.FK_BASE_USE_REFERENCE_BASE_ROL">
+            <End Role="BASE_ROLE" EntitySet="BASE_ROLE" />
+            <End Role="BASE_USER_ROLE" EntitySet="BASE_USER_ROLE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BASE_USER_ROLE_BASE_USER" Association="WeatherDB.FK_BASE_USER_ROLE_BASE_USER">
+            <End Role="BaseUser" EntitySet="BASE_USER" />
+            <End Role="BASE_USER_ROLE" EntitySet="BASE_USER_ROLE" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="BaseEmployee">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EmpType" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Age" Type="Int32" />
-          <Property Name="State" Type="String" MaxLength="10" Unicode="false" FixedLength="true" />
+          <Property Name="State" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Precision="3" />
-          <Property Name="Mobile" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="Address" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Sex" Type="String" MaxLength="10" Unicode="false" FixedLength="true" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Sex" Type="Int32" />
           <Property Name="UpdateTime" Type="DateTime" Precision="3" />
           <Property Name="UpdateID" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="BASE_USER" Relationship="WeatherDB.FK_BASE_USER_BASE_EMPLOYEE" FromRole="BASE_EMPLOYEE" ToRole="BASE_USER" />
         </EntityType>
         <EntityType Name="BaseUser">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="UserAccount" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="UserPWD" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="State" Type="String" MaxLength="10" Unicode="false" FixedLength="true" />
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserAccount" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UserPWD" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="UpdateTime" Type="DateTime" Precision="3" />
           <Property Name="UpdateID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Emp_ID" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="BASE_EMPLOYEE" Relationship="WeatherDB.FK_BASE_USER_BASE_EMPLOYEE" FromRole="BASE_USER" ToRole="BASE_EMPLOYEE" />
+          <NavigationProperty Name="BASE_USER_ROLE" Relationship="WeatherDB.FK_BASE_USER_ROLE_BASE_USER" FromRole="BaseUser" ToRole="BASE_USER_ROLE" />
         </EntityType>
+        <Association Name="FK_BASE_USER_BASE_EMPLOYEE">
+          <End Type="WeatherDB.BaseEmployee" Role="BASE_EMPLOYEE" Multiplicity="0..1" />
+          <End Type="WeatherDB.BaseUser" Role="BASE_USER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BASE_EMPLOYEE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BASE_USER">
+              <PropertyRef Name="Emp_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BASE_ROLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="10" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DATA_AUTH_ID" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="ROLE_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ALLOW_DEL" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="DEFAULT_ROLE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="REMARK" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="STATE" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="SORT" Type="Decimal" Precision="10" Scale="0" />
+          <NavigationProperty Name="BASE_USER_ROLE" Relationship="WeatherDB.FK_BASE_USE_REFERENCE_BASE_ROL" FromRole="BASE_ROLE" ToRole="BASE_USER_ROLE" />
+        </EntityType>
+        <EntityType Name="BASE_USER_ROLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="10" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="USER_ID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ROLE_ID" Type="Decimal" Precision="10" Scale="0" />
+          <NavigationProperty Name="BASE_ROLE" Relationship="WeatherDB.FK_BASE_USE_REFERENCE_BASE_ROL" FromRole="BASE_USER_ROLE" ToRole="BASE_ROLE" />
+          <NavigationProperty Name="BASE_USER" Relationship="WeatherDB.FK_BASE_USER_ROLE_BASE_USER" FromRole="BASE_USER_ROLE" ToRole="BaseUser" />
+        </EntityType>
+        <EntityType Name="JD_Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="sku" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="url" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="img" Type="String" MaxLength="1000" FixedLength="true" Unicode="true" />
+          <Property Name="price" Type="Double" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_BASE_USE_REFERENCE_BASE_ROL">
+          <End Type="WeatherDB.BASE_ROLE" Role="BASE_ROLE" Multiplicity="0..1" />
+          <End Type="WeatherDB.BASE_USER_ROLE" Role="BASE_USER_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BASE_ROLE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BASE_USER_ROLE">
+              <PropertyRef Name="ROLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BASE_USER_ROLE_BASE_USER">
+          <End Type="WeatherDB.BaseUser" Role="BaseUser" Multiplicity="0..1" />
+          <End Type="WeatherDB.BASE_USER_ROLE" Role="BASE_USER_ROLE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BaseUser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BASE_USER_ROLE">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -80,29 +254,65 @@
           <EntitySetMapping Name="BASE_EMPLOYEE">
             <EntityTypeMapping TypeName="WeatherDB.BaseEmployee">
               <MappingFragment StoreEntitySet="BASE_EMPLOYEE">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="EmpType" ColumnName="EmpType" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Sex" ColumnName="Sex" />
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
                 <ScalarProperty Name="UpdateID" ColumnName="UpdateID" />
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EmpType" ColumnName="EmpType" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BASE_USER">
             <EntityTypeMapping TypeName="WeatherDB.BaseUser">
               <MappingFragment StoreEntitySet="BASE_USER">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="UserAccount" ColumnName="UserAccount" />
-                <ScalarProperty Name="UserPWD" ColumnName="UserPWD" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="Emp_ID" ColumnName="Emp_ID" />
                 <ScalarProperty Name="UpdateID" ColumnName="UpdateID" />
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="UserPWD" ColumnName="UserPWD" />
+                <ScalarProperty Name="UserAccount" ColumnName="UserAccount" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BASE_ROLE">
+            <EntityTypeMapping TypeName="WeatherDB.BASE_ROLE">
+              <MappingFragment StoreEntitySet="BASE_ROLE">
+                <ScalarProperty Name="SORT" ColumnName="SORT" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
+                <ScalarProperty Name="REMARK" ColumnName="REMARK" />
+                <ScalarProperty Name="DEFAULT_ROLE" ColumnName="DEFAULT_ROLE" />
+                <ScalarProperty Name="ALLOW_DEL" ColumnName="ALLOW_DEL" />
+                <ScalarProperty Name="ROLE_NAME" ColumnName="ROLE_NAME" />
+                <ScalarProperty Name="DATA_AUTH_ID" ColumnName="DATA_AUTH_ID" />
+                <ScalarProperty Name="ID" ColumnName="ROLE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BASE_USER_ROLE">
+            <EntityTypeMapping TypeName="WeatherDB.BASE_USER_ROLE">
+              <MappingFragment StoreEntitySet="BASE_USER_ROLE">
+                <ScalarProperty Name="ROLE_ID" ColumnName="ROLE_ID" />
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+                <ScalarProperty Name="ID" ColumnName="USER_ROLE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JD_Product">
+            <EntityTypeMapping TypeName="WeatherDB.JD_Product">
+              <MappingFragment StoreEntitySet="JD_Product">
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="img" ColumnName="img" />
+                <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="sku" ColumnName="sku" />
+                <ScalarProperty Name="ID" ColumnName="pid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -124,6 +334,7 @@
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
         <DesignerProperty Name="DDLGenerationTemplate" Value="$(VSEFTools)\DBGen\SSDLToSQL10.tt" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->

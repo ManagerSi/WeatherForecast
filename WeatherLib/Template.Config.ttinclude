@@ -1,0 +1,23 @@
+﻿<#@ include file="Infrastructure/WeatherTemplate.ttinclude"#>
+<#
+// string []Entities = new String[]{"A1"};
+string BaseNamespaceName = "WeatherLib";
+string DbContextClass = BaseNamespaceName + ".Model.WeatherDBContext";
+var inputEntitiesFile = @"../Model/WeatherModel.edmx";
+string []Entities = GetEntitiesFromModel(inputEntitiesFile);
+LoadAllProperty(inputEntitiesFile);
+#>
+<#+ 
+bool IsVstEntity(string entityName) {
+	return entityName.IndexOf("Vst") == 0 && 
+		entityName.IndexOf("Item") < 0 ;
+}
+
+bool IsNoIDModel(string entityName) {
+	return entityName == "ReadMessage" || entityName == "BaseDict";
+}
+
+bool IsReportEntity(string entityName) {
+	return entityName.IndexOf("Report") == 0;
+}
+#>

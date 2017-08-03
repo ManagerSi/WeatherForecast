@@ -1,0 +1,58 @@
+﻿@model WeatherLib.Model.HeWeather5
+<h3>我的天气--全部天气</h3>
+@using(Html.BeginForm("API_WeatherByheweatherPartial_All","",FormMethod.Get)) {
+    <div>
+
+        <label>城市</label>
+        <input type="text" list="city_list" name="city" id="city" />
+        <datalist id="city_list">
+            <option label="HZ赫兹工作室" value="http://weibo.com/hz421247910" />
+            <option label="上海" value="shanghai" />
+            <option label="上海" value="上海" />
+            <option label="河南" value="河南" />
+            <option label="新乡" value="新乡" />
+        </datalist>
+        <input type="submit" value="搜索"/>
+
+        @if(Model != null && Model.status == "ok") {
+            <h4>基本信息</h4>
+            <div>@Model.basic.City   <span>@Model.basic.Update.Loc</span></div>
+
+            <h4>天气状况</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <td>预报日期</td>
+                        <td>日出时间</td>
+                        <td>日落时间</td>
+                        <td>天气状况</td>
+                        <td>最高温度</td>
+                        <td>最低温度</td>
+                        <td>风向</td>
+                        <td>风力等级</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var i in Model.daily_forecast) {
+                        <tr>
+                            <td>@i.date</td>
+                            <td>@i.astro.sr</td>
+                            <td>@i.astro.ss</td>
+                            <td>@i.cond.txt_d</td>
+                            <td>@i.tmp.max</td>
+                            <td>@i.tmp.min</td>
+                            <td>@i.wind.dir</td>
+                            <td>@i.wind.sc</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }else{
+            <div>目前没有信息，请刷新！</div>
+        }
+       
+    </div>
+
+}
+
+

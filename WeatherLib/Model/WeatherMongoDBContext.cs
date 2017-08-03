@@ -15,7 +15,7 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 //using Mobizone.TSIC.Utility;
 
-namespace Mobizone.TSIC.Models {
+namespace WeatherForecast.Models {
   public partial class TSICMongoDocContext {
 
     public const string kMongDBCntString = "MongoDBCnt";

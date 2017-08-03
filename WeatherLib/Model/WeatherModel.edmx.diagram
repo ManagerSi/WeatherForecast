@@ -5,8 +5,14 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="62a85064c12e47479392e8c63609be64" Name="关系图1">
-        <EntityTypeShape EntityType="WeatherDB.BaseEmployee" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WeatherDB.BaseUser" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WeatherDB.BaseEmployee" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="WeatherDB.BaseUser" Width="1.5" PointX="3" PointY="1.375" />
+        <AssociationConnector Association="WeatherDB.FK_BASE_USER_BASE_EMPLOYEE" />
+        <EntityTypeShape EntityType="WeatherDB.BASE_ROLE" Width="1.5" PointX="3.375" PointY="5.375" />
+        <EntityTypeShape EntityType="WeatherDB.BASE_USER_ROLE" Width="1.5" PointX="5.625" PointY="1.75" />
+        <EntityTypeShape EntityType="WeatherDB.JD_Product" Width="1.5" PointX="0.75" PointY="5.75" />
+        <AssociationConnector Association="WeatherDB.FK_BASE_USE_REFERENCE_BASE_ROL" />
+        <AssociationConnector Association="WeatherDB.FK_BASE_USER_ROLE_BASE_USER" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

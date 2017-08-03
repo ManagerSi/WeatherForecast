@@ -1,0 +1,99 @@
+﻿
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <title>珠宝 - 珠宝 - 珠宝</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/base/normalize.css")" media="screen">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/base/basecss.css")">
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+    <link href="~/Scripts/bootstrap.css" rel="stylesheet" />
+    <link href="~/Scripts/bootstrap-theme.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+
+    @*<link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.js"></script>*@
+</head>
+<body>
+    <!-- Header -->
+    @if(IsSectionDefined("Header")) {
+        @RenderSection("Header")
+    } else {
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#example-navbar-collapse">
+                        <span class="sr-only">切换导航</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">ManagerSi</a>
+                </div>
+                <div class="collapse navbar-collapse" id="example-navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="javascript:void(0)">品牌</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">展会</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">企业</a>
+                        </li>
+
+                        <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    导航三 <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">二级导航</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">二级导航</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">二级导航</a></li>
+                                </ul>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    }
+    <!--  header end  -->
+    <!-- body -->
+    <div id="content" data-ajax="false">
+        @RenderBody()
+    </div>
+    <!-- body -->
+
+
+    <footer>
+        @if(IsSectionDefined("FootSection")) {
+            @RenderSection("FootSection")
+        } else {
+
+            <div class="foot">
+                <div class="copyright">
+                    <p>
+                        版权所有 © 2008-2017 金投网 www.cngold.org 浙ICP备09076998号 经营许可证编号：浙B2-20140239<br>为方便用户快速收藏本站，请牢记本站易记网址：<b>jt.cn</b><br>
+                        本站信息仅供投资者参考，不作为投资建议！本站所有广告均由第三方提供！
+                    </p>
+                    <div style="width:300px;margin:0 auto; padding:20px 0;">
+                        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602000179" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+                            <img src="https://res.cngoldres.com/web/index/img/ghs.png" style="float:left;"><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">浙公网安备 33010602000179号</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </footer>
+
+</body>
+</html>
+
+

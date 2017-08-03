@@ -1,0 +1,140 @@
+﻿<#@ template language="C#" debug="true" hostspecific="true"#>
+<#@ include file="../Template.Config.ttinclude"#>
+<#@ output extension=".cs"#><#
+// Copyright (c) Microsoft Corporation.  All rights reserved.
+
+string namespaceName = BaseNamespaceName + ".DAL";
+
+CodeGenerationTools code = new CodeGenerationTools(this);
+EntityFrameworkTemplateFileManager fileManager = EntityFrameworkTemplateFileManager.Create(this);
+
+// 将支持代码写出到主要模板输出文件
+WriteCstHeader(fileManager,BaseNamespaceName + ".Model");
+BeginCstNamespace(namespaceName, code);
+#>
+public partial class UnitOfWork : <#=BaseNamespaceName#>.Infrastructure.DAL.UnitOfWork
+{
+   public <#=DbContextClass#> Context { get { return context as <#=DbContextClass#>; } }
+   public UnitOfWork(<#=DbContextClass#> context) : base(context)
+   {
+   }
+   
+   
+   public UnitOfWork() : this(<#=DbContextClass#>.CurrentHttpContext){
+    
+   }
+   
+   public int? ContextCommandTimeOut {
+     get {
+        return Context.GetCommandTimeout();
+      }
+      set {
+        Context.SetCommandTimeout(value);
+      }
+    }
+	
+<#
+   foreach (String entityName in Entities) {
+#>
+
+  private <#=entityName#>Repository _<#=entityName#>Repository = null;
+  public <#=entityName#>Repository <#=entityName#>Repository {
+    get
+	{
+	  if (_<#=entityName#>Repository == null)
+	  {
+	    _<#=entityName#>Repository = new <#=entityName#>Repository(this);
+	  }
+	  return _<#=entityName#>Repository;
+	}
+  }
+  
+<#
+   }
+#>
+
+}
+<#
+EndCstNamespace(namespaceName);
+
+// 发出实体类型
+foreach (String entityName in Entities)
+{
+    fileManager.StartNewFile(entityName + ".dal_generated.cs");
+    WriteCstHeader(fileManager,BaseNamespaceName + ".Model", BaseNamespaceName + ".Utility");
+	BeginCstNamespace(namespaceName, code);
+#>
+
+public partial interface I<#=entityName#>Repository:
+    <#=BaseNamespaceName#>.Infrastructure.DAL.IRepository<<#=entityName#>>
+{
+  <# if (IsVstEntity(entityName)) 
+	 {
+  #>
+      
+  <# 
+	 }
+  #>
+}
+
+public partial class <#=entityName#>Repository:
+   <#=BaseNamespaceName#>.Infrastructure.DAL.GenericRepository<<#=entityName#>>,
+   <#=BaseNamespaceName#>.DAL.I<#=entityName#>Repository
+{
+  private <#=DbContextClass#> context { get { return this.UnitOfWork.Context; } }
+  private <#=BaseNamespaceName#>.DAL.UnitOfWork UnitOfWork {get;set;}
+  public <#=entityName#>Repository(<#=BaseNamespaceName#>.DAL.UnitOfWork unitOfWork) : base (unitOfWork)
+  { 
+	this.UnitOfWork = unitOfWork;
+  }
+
+  protected static decimal cur_id = -1;
+  protected static object locker = new object();
+  public override decimal GetNextID() {
+    lock (locker) {
+    <#
+	  if (entityName == "BaseDict") {
+	#>
+	  return -1;
+	<#
+	}else {
+    #>
+	
+	  // if (cur_id < 0)
+	  // {
+	  if (dbSet.Count() == 0)
+	  {
+	    return 1;
+	  }
+	  decimal maxid = dbSet.Max(r => r.ID);
+	  // }
+	  // cur_id += 1;
+	  // return cur_id;
+	  return maxid + 1;
+	  <#
+	}
+	#>
+    }
+  }
+  <# if (IsReportEntity(entityName)) 
+	 {
+	   if (HasProperty(entityName, "State")){
+  #>
+
+  <#
+	  }
+	}
+  #>
+  <# if (IsVstEntity(entityName)) 
+	 {
+  #>
+    
+  <# 
+	 }
+  #>
+}
+<#
+   EndCstNamespace(namespaceName);
+}
+fileManager.Process();
+#>

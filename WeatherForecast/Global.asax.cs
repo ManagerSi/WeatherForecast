@@ -16,6 +16,8 @@ namespace WeatherForecast
     {
         protected void Application_Start()
         {
+          log4net.Config.XmlConfigurator.Configure();
+
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
@@ -28,7 +30,7 @@ namespace WeatherForecast
       Mobizone.TSIC.Models.TSICRavenDocContext.InitDocumentStore();
 #elif USING_MONGODB 
       //网站启动后启动mongodb
-      Mobizone.TSIC.Models.TSICMongoDocContext.InitClient();
+      //Mobizone.TSIC.Models.TSICMongoDocContext.InitClient();
 #endif
         }
     }

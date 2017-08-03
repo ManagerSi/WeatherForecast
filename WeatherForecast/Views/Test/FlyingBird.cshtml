@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "FlyingBird";
+}
+
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+<style>
+    *{
+        margin:0px;
+        padding:0px;
+    }
+    body{
+        overflow:hidden;/*超出范围不可见*/
+    }
+    #bird{
+        width:200px;
+        height:200px;
+        position:absolute;/*才能设置top left*/
+    }
+    #bird img {
+    width:100%  ;
+    }
+    .deriction-37{
+        transform:rotateY(180deg);
+    }
+    .deriction-38{
+         transform:rotate(-60deg);
+    }
+    .deriction-39{
+         transform:rotate(0deg);
+    }
+    .deriction-40{
+         transform:rotate(60deg);
+    }
+</style>
+<script>
+    $(function () {
+        var speed = 10;
+        var nkey = 39;
+        //键盘按下时出发，even 按下的对象
+        $(document).keydown(function (even) {
+            var off = $("#bird").offset();//获取小鸟目前的方位对象
+            var bwidth = $("#bird").width();
+            var bhight = $("#bird").height();
+            var wwidth = $(window).width();
+            var wheight = $(window).height();
+            var keycode = even.keyCode;
+            if (nkey != keycode) {
+                $("#bird").removeClass().addClass("deriction-" + keycode);
+                nkey = keycode;
+            }
+            //alert(keycode);
+            switch (keycode) {
+                case 37://左
+                    off.left -= speed;
+                    if (off.left <= -bwidth) {
+                        off.left = (wwidth);
+                    }
+                    break;
+                case 38://上
+                    off.top -= speed;
+                    if (off.top <= -bhight) {
+                        off.top = (wheight);
+                    }
+                    break;
+                case 39://右
+                    off.left += speed;
+                    if (off.left >= wwidth) {
+                        off.left = -bwidth;
+                    }
+                    break;
+                case 40://下
+                    off.top += speed;
+                    if (off.top >= wheight) {
+                        off.top = -(bhight);
+                    }
+                    break;
+                default:
+                    break;
+            }
+           
+           
+            $("#bird").offset(off);
+        });
+    })
+</script>
+<h2>FlyingBird</h2>
+<div id="bird">
+    <img src="~/Images/1.jpg" />
+</div>

@@ -1,0 +1,239 @@
+﻿<#@ template language="C#" debug="false" hostspecific="true"#>
+<#@ include file="../Template.Config.ttinclude"#>
+<#@ output extension=".cs"#><#
+ 
+string namespaceName = BaseNamespaceName + ".BLL";
+
+CodeGenerationTools code = new CodeGenerationTools(this);
+EntityFrameworkTemplateFileManager fileManager = EntityFrameworkTemplateFileManager.Create(this);
+  
+// 将支持代码写出到主要模板输出文件
+WriteCstHeader(fileManager, BaseNamespaceName + ".Model");
+BeginCstNamespace(namespaceName, code);
+#>
+public partial class BLLFactory : WeatherLib.Infrastructure.BLL.BLLFactory
+    {
+        
+        static BLLFactory()
+        {
+<#
+	foreach (String entityName in Entities)
+	{
+#>
+            RegisterBL("I<#=entityName#>BL", typeof(I<#=entityName#>BL), typeof(<#=entityName#>BL));
+<#
+	}
+#>
+            ExtraInit(); 
+			//RegisterDocBL();
+        }
+	    static partial void ExtraInit();
+		public static  void  RegisterBL(string name,Type intf, Type type) {
+          BLLs.Add(intf, type);
+          BLLsByName.Add(name, type);
+        }
+
+		protected static Dictionary<Type, Type> BLLs = new Dictionary<Type, Type>();
+		protected static Dictionary<string, Type> BLLsByName = new Dictionary<string, Type>();
+	/// <summary>
+        ///     创建对应BL,如果缓存可用，则使用缓存
+        /// </summary>
+		public static IBL Create<IBL>(<#=BaseNamespaceName#>.DAL.UnitOfWork uw=null) where IBL : class {
+	      return null == uw ? CreateNew<IBL>() : CreateNew<IBL>(uw);
+	      // 现在还没遇到性能瓶颈，无需使用以下方法
+   	      /*var service = CurrentService;
+    	  if (service  == null) {
+            return null == uw ? CreateNew<IBL>() : CreateNew<IBL>(uw);
+    	  }
+		  if (null == uw) {
+	        return service.BL<IBL>() as IBL;
+	      }
+          var cur_uw = service.UnitOfWork;
+		  if (uw == cur_uw) {
+	        return service.BL<IBL>() as IBL;
+	      } else {
+		    return CreateNew<IBL>(uw);
+		  }*/
+		}
+		//public static IBL Create<IBL>(WeatherLib.Infrastructure.DAL.IDocDBSession session) where IBL : class {
+	    //  var bl = CreateNew<IBL>(session.UnitOfWork);
+    	//  var docBL = bl as WeatherLib.Infrastructure.BLL.IDocumentBL;
+        //  if (docBL != null) {
+        //    docBL.SetSession(session);
+        //  }
+    	//  return bl;
+    	// }
+    	
+	/// <summary>
+        ///     创建一个新的BLL对象
+        /// </summary>
+		public static IBL CreateNew<IBL>(params object[] args) where IBL : class {
+		  return CreateNewFromDict<IBL>(BLLs, args);
+		}
+		public static object CreateNewByName(string name, params object[] args) {
+		  return CreateNewFromDictByName(BLLsByName, name, args);
+		}
+    }
+
+
+<#
+EndCstNamespace(namespaceName);
+// 发出实体类型
+foreach (String entityName in Entities)
+{
+    fileManager.StartNewFile(entityName + ".bll_generated.cs");
+    WriteCstHeader(fileManager, BaseNamespaceName + ".Model",BaseNamespaceName + ".DAL",BaseNamespaceName + ".Utility");
+	BeginCstNamespace(namespaceName, code);
+#>
+
+public partial interface I<#=entityName#>BL: <#=BaseNamespaceName#>.Infrastructure.BLL.IGenericBL<<#=entityName#>>
+{
+<# if (IsVstEntity(entityName)) 
+	 {
+  #>
+     IQueryable<<#=entityName#>> QueryVstData(ReportQueryParams queryParams);
+	 void DisablePreviousVst(decimal storeID, decimal empID,DateTime bizDate);
+	 <#=entityName#> InsertAndDisablePreviousOnBizDate(<#=entityName#> obj, int prodType =1,bool autoSave = true, Action<<#=entityName#>> onDisable = null);
+  <# 
+	 }
+  #>
+  <# if (HasProperty(entityName, "State"))
+     {
+  #>
+      /// <summary>
+      /// 隐藏一条记录
+      /// </summary>
+      /// <param name="id"></param>
+      void Disable(decimal id);
+	  /// <summary>
+      /// 显示一条记录
+      /// </summary>
+      /// <param name="id"></param>
+	  void Enable(decimal id);
+  <# 
+	 }
+  #>
+}
+
+public partial class <#=entityName#>BL:
+   <#=BaseNamespaceName#>.Infrastructure.BLL.GenericBL<<#=entityName#>>,
+   I<#=entityName#>BL
+{
+  public <#=entityName#>BL() : base() {
+    unitOfWork = new <#=BaseNamespaceName#>.DAL.UnitOfWork();
+	OnCreate();
+  }
+  public <#=entityName#>BL(<#=BaseNamespaceName#>.DAL.UnitOfWork unitOfWork) : base() {
+    this.unitOfWork = unitOfWork;
+	OnCreate();
+  }
+  partial void OnCreate();
+  private WeatherLib.DAL.UnitOfWork UnitOfWork {
+    get { return unitOfWork as WeatherLib.DAL.UnitOfWork;}
+	set { unitOfWork = value;}
+  }
+  private I<#=entityName#>Repository _repository;
+  private I<#=entityName#>Repository Repository
+  {
+  	get
+	{
+	  if (_repository == null)
+	  {
+	    _repository = unitOfWork.Repository<<#=entityName#>>() as I<#=entityName#>Repository;
+	  }
+	  return _repository;
+	}
+	set
+	{
+	  _repository = value;
+	  }
+  }
+  <# if (IsVstEntity(entityName)) 
+	 {
+  #>
+      public IQueryable<<#=entityName#>> QueryVstData(ReportQueryParams queryParams) {
+	  return Repository.QueryVstData(queryParams);
+	  }
+	  public void DisablePreviousVst(decimal storeID, decimal empID,DateTime bizDate) {
+	    var strBizDate = bizDate.ToDateString();
+        var list = Repository.Get(
+            i => i.EmpID == empID &&
+            i.StoreID == storeID &&
+			i.BizDate == strBizDate &&
+            i.State == "1");
+        foreach (var vst in list) {
+          vst.State = "1";
+          Repository.Update(vst);
+        }
+        UnitOfWork.Save();
+      }
+	  
+	  public <#=entityName#> InsertAndDisablePreviousOnBizDate(<#=entityName#> obj,int prodType =1, bool autoSave = true, Action<<#=entityName#>> onDisable = null) {
+	    var strBizDate = obj.BizDate;
+		var storeID = obj.StoreID.Value;
+		var empID = obj.EmpID.Value;
+        var list = Repository.Get(
+            i => i.EmpID == empID &&
+            i.StoreID == storeID &&
+			i.BizDate == strBizDate &&
+            i.State == "1" &&
+			i.ProdType == prodType);
+        foreach (var vst in list) {
+		  if (onDisable == null) {
+            vst.State = "0";
+            Repository.Update(vst);
+	      } else {
+		    onDisable(vst);
+		  }
+        }
+		Repository.Insert(obj);
+	    if (autoSave) {
+          UnitOfWork.Save();
+		}
+		return obj;
+      }
+  <# 
+	 }
+  #>
+  <# if (HasProperty(entityName, "State"))
+     {
+  #>
+      public void Disable(decimal id) {
+	    <#=entityName#> record = GetByID((int)id);
+        record.State = "0";
+        Update(record);
+	  }
+	  public void Enable(decimal id) {
+	    <#=entityName#> record = GetByID((int)id);
+        record.State = "1";
+        Update(record);
+	  }
+  <# 
+	 }
+  #>
+
+    public override <#=entityName#> InsertOrUpdate(<#=entityName#> entity) {
+  <# if (HasProperty(entityName, "ID"))
+     {
+  #>
+      if (entity.ID == 0) {
+	    return Insert(entity);
+	  }
+	  Update(entity);
+	  return entity;
+  <# 
+	 } else {
+  #>
+    throw new NotImplementedException();
+  <#
+    }
+  #>
+    }
+
+}
+<#
+   EndCstNamespace(namespaceName);
+}
+fileManager.Process();
+#>
+

@@ -14,11 +14,20 @@ namespace WeatherLib.Model
     
     public partial class BaseUser
     {
+        public BaseUser()
+        {
+            this.BASE_USER_ROLE = new HashSet<BASE_USER_ROLE>();
+        }
+    
         public decimal ID { get; set; }
         public string UserAccount { get; set; }
         public string UserPWD { get; set; }
         public string State { get; set; }
         public Nullable<System.DateTime> UpdateTime { get; set; }
         public Nullable<decimal> UpdateID { get; set; }
+        public Nullable<decimal> Emp_ID { get; set; }
+    
+        public virtual BaseEmployee BASE_EMPLOYEE { get; set; }
+        public virtual ICollection<BASE_USER_ROLE> BASE_USER_ROLE { get; set; }
     }
 }

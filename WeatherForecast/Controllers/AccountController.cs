@@ -1,5 +1,4 @@
-﻿using WeatherLib.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,32 +11,37 @@ using MongoDB.Bson.Serialization.Options;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using MongoDB.Bson;
-
+using WeatherLib.Model;
+using WeatherLib.BLL;
+using WeatherLib.Controllers;
+using WeatherLib.Security;
+using WeatherLib.Utility;
 namespace WeatherForecast.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        public  string conStr
-        {
-            get
-            {
-                return System.Configuration.ConfigurationManager.ConnectionStrings["SqlDBContext"].ToString();
-            }
-        }
-        public WeatherDBContext sqldb
-        {
-            get
-            {
-                return new WeatherDBContext(conStr);
-            }
-        }
-        public MongoDatabase mongodb
-        {
-            get
-            {
-                return Mobizone.TSIC.Models.TSICMongoDocContext.ConnectDB();
-            }
-        }
+      //protected WeatherAuthorizationService AuthorizationService { get; set; }
+        //public  string conStr
+        //{
+        //    get
+        //    {
+        //        return System.Configuration.ConfigurationManager.ConnectionStrings["SqlDBContext"].ToString();
+        //    }
+        //}
+        //public WeatherDBContext sqldb
+        //{
+        //    get
+        //    {
+        //        return new WeatherDBContext(conStr);
+        //    }
+        //}
+        //public MongoDatabase mongodb
+        //{
+        //  get {
+        //    return TSICMongoDocContext.ConnectDB();
+        //  }
+        //}
+
 
         //
         // GET: /Account/
@@ -51,15 +55,19 @@ namespace WeatherForecast.Controllers
         {
             if(ModelState.IsValid)
             {
-                var user = sqldb.BASE_USER.Where(i => i.State == "1" && i.UserAccount == model.Account && i.UserPWD == model.PassWord).FirstOrDefault();
-                if(user != null)
-                {
-                    WeatherLib.Model.Documents.Login login= new WeatherLib.Model.Documents.Login();
-                    login.State=true;
-                    login.Time = System.DateTime.Now;
-                    login.UpdateTime = login.Time;
-                    mongodb.GetCollection<WeatherLib.Model.Documents.Login>(typeof(WeatherLib.Model.Documents.Login).Name).Insert(login);
-                    return RedirectToAction("index", "home");
+              var u = BLLFactory.Create<IBaseUserBL>();
+              
+                //var user = sqldb.BASE_USER.Where(i => i.State == "1" && i.UserAccount == model.Account && i.UserPWD == model.PassWord).FirstOrDefault();
+                var user = u.GetUserInWeb(model.Account,model.PassWord);
+                if(user != null) {
+
+                  //if(AuthorizationService.SetAuthSession(model.Account,model.PassWord,WeatherClientType.Web)) {
+                  //  return RedirectToAction("index","home");
+                  //}
+                  if(u.SetAuthSession(model.Account,model.PassWord,WeatherClientType.Web)) {
+                    return RedirectToAction("index","Dashboard");
+                  }
+                  
                 }
                 ModelState.AddModelError("PassWord", "用户名或密码错误");
             }

@@ -1,0 +1,234 @@
+﻿<h3>我的天气--（百度）中国和世界天气预报</h3>
+<div>
+    
+    <label>城市</label>
+    <input type="text" list="city_list" name="text" id="city" />
+    <datalist id="city_list">
+        <option label="HZ赫兹工作室" value="http://weibo.com/hz421247910" />
+        <option label="上海" value="shanghai" />
+        <option label="上海" value="上海" />
+        <option label="河南" value="河南" />
+        <option label="新乡" value="新乡" />
+    </datalist>
+    <input type="button" value="搜索" onclick="search()"/>
+    
+    @{Html.RenderAction("",new { city = "beijing" });}
+
+    <br />
+    <div id="map"></div> 
+    <style type="text/css">
+        table{border-collapse:collapse;border-spacing:0;border-left:1px solid #888;border-top:1px solid #888;background:#efefef;}
+        th,td{border-right:1px solid #888;border-bottom:1px solid #888;padding:5px 15px;}
+        th{font-weight:bold;background:#ccc;}
+        #map{height:200px;}
+    </style>
+
+    <script type="text/javascript">
+        $().ready(function () {
+            var citylist = $("#city_list");
+            citylist.empty();//清空内容  
+            //从json文件中获取城市
+            //var strHtml = "";//存储数据的变量  
+            //$.getJSON("./Json/china-city-list.json", function (data) {
+            //    $.each(data, function (infoIndex, info) {
+            //        strHtml += "<option label=" + info["cityEn"] + " value=" + info["cityZh"] + " />";
+            //        strHtml += "<option label=" + info["cityZh"] + " value=" + info["cityZh"] + " />";
+            //    });
+            //    citylist.append(strHtml);//追加处理后的数据     
+            //    alert("suc");
+            //});
+
+            //h5定位
+            //getLocation();
+            
+            // baidu 定位对象
+            var geoc = new BMap.Geocoder();
+            var geolocation = new BMap.Geolocation();
+            geolocation.getCurrentPosition(function (r) {
+                if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                    console.log(r);
+                    console.log(r.point.lng + ',' + r.point.lat);
+
+                    $("#city").val(r.address.city);
+                    search();
+                    
+                    map = new BMap.Map("map");
+                    map.addControl(new BMap.NavigationControl());
+                    map.addControl(new BMap.ScaleControl());
+                    map.addControl(new BMap.OverviewMapControl());
+                    map.centerAndZoom(r.point, 15);
+                    map.addOverlay(new BMap.Marker(r.point))
+
+                } else {
+                    alert('无法定位到您的当前位置，导航失败，请手动输入您的当前位置！' + this.getStatus());
+                }
+            }, { enableHighAccuracy: true });
+          
+        });
+        //H5定位
+        function getLocation() {
+            if (navigator.geolocation) {
+                alert("开始定位");
+                console.log("开始定位");
+                //自定义缓冲标题
+                //$.myloading({ title: "定位中...." });
+                //H5定位
+                navigator.geolocation.getCurrentPosition(updateLocation, handleLocationError, {
+                    enableHighAccuracy: true,   // 指示浏览器获取高精度的位置，默认为false
+                    timeout: 15000,     // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
+                    maximumAge: 0       // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
+                });
+
+            } else {
+                updateStatus("浏览器不支持定位功能");
+            }
+        }
+        //提示信息
+        function updateStatus(message, errcode) {
+            alert(message);
+            //document.getElementById("status").innerHTML = message;
+            ////关闭缓冲效果
+            //$.myloading("hide");
+            //if (errcode == 1) {
+            //    $("#helpLink").show();
+            //}
+        }
+        //获取h5定位信息
+        function updateLocation(position) {
+            console.log("updateLocation");
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            accuracy = position.coords.accuracy;
+            var gpsPoint = new BMap.Point(longitude, latitude);
+            var convertor = new BMap.Convertor();
+            var pointArr = [];
+            pointArr.push(gpsPoint);
+            convertor.translate(pointArr, 1, 5, initMap);//translateCallback
+            //$.mobile.loading("hide");
+        }
+        
+        //坐标转换完之后的回调函数
+        translateCallback = function (point) {
+            var p = point.points[0];
+            lat = p.lat;
+            lng = p.lng;
+            // 创建地理编码实例     
+            var myGeo = new BMap.Geocoder();
+            // 根据坐标得到地址描述    
+            myGeo.getLocation(p, function (result) {
+                if (result) {
+                    address = result.address;
+                }
+            });
+        }
+        function initMap(point) {
+            //初始化地图 
+            map = new BMap.Map("map");
+            map.addControl(new BMap.NavigationControl());
+            map.addControl(new BMap.ScaleControl());
+            map.addControl(new BMap.OverviewMapControl());
+            map.centerAndZoom(point, 15);
+            map.addOverlay(new BMap.Marker(point))
+        }
+        
+        //h5获取失败
+        function handleLocationError(error) {
+            accuracy = null;
+            lat = null;
+            lng = null;
+            distace = null;
+            address = null;
+            switch (error.code) {
+                case 0:
+                    updateStatus("尝试获取您的位置信息时发生错误：" + error.message, 1);
+                    break;
+                case 1:
+                    updateStatus("您拒绝了获取位置信息。", 1);
+                    break;
+                case 2:
+                    updateStatus("浏览器无法获取您的位置信息：" + error.message, 1);
+                    break;
+                case 3:
+                    updateStatus("获取您位置信息超时。", 1);
+                    break;
+                default:
+                    updateStatus("待确认问题：" + error.message, 1);
+                    break;
+            }
+        }
+
+        
+
+        //点击搜索天气
+        function search() {
+            var city = $("#city").val();
+            if (city === undefined || city === "") {
+                alert("请输入城市名称");
+            }
+            if (city.indexOf('市') > 0) {
+                city = city.substring(0, city.length - 1);
+            }
+            $.ajax({
+                url: 'https://free-api.heweather.com/v5/forecast',//和风天气接口   //'http://apis.baidu.com/heweather/weather/free',百度天气接口
+                type: 'GET', //GET
+                async: true,    //或false,是否异步
+                data: {
+                    'city': city,
+                    'key':'5d6cb95c6ce4493ea1532f7179c48b0d'
+                },
+                timeout: 500,    //超时时间
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                beforeSend: function (xhr) {
+                    console.log(xhr)
+                    console.log('发送前')
+                    //var apikey = "apikey";//百度
+                    //var apikeyvalue = "d1bc45310b7e55d73e9677553a5c6854";
+                    //xhr.setRequestHeader(apikey, apikeyvalue);
+                },
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data);
+                    console.log(textStatus);
+                    console.log(jqXHR);
+                    var v5 = data.HeWeather5[0];
+                    if (v5 === undefined || v5.status != "ok") {
+                        alert("查询错误,请重试");
+                        $("#weatherresult").html('');
+                        return;
+                    }
+                    var str = '<div><h5>' + v5.basic.city + '   <span>更新时间：' + v5.basic.update.loc + '</span></h5>';
+                    str += '<table>';
+                    str += '<thead><td>日期</td><td>温度</td><td>白天天气</td><td>夜间天气</td><td>相对湿度(%)</td><td>降水量（mm）</td><td>气压</td><td>风向</td><td>风力等级</td></thead>';
+                    str += '<tbody>';
+                    for (var i in v5.daily_forecast) {
+                        var item = v5.daily_forecast[i];
+                        str += '<tr><td>' + item.date + '</td><td>' + item.tmp.min + '/' + item.tmp.max + '</td><td>' + item.cond.txt_d + '</td><td>' + item.cond.txt_n + '</td>';
+                        str += '<td>' + item.hum + '</td><td>' + item.pcpn + '</td><td>' + item.pres + '</td><td>' + item.wind.dir + '</td><td>' + item.wind.spd + '</td></tr>';
+                    }
+                    str += '</tbody></table></div>';
+                    $("#weatherresult").html(str);
+                },
+                error: function (xhr, textStatus) {
+                    console.log('错误')
+                    console.log(xhr)
+                    console.log(textStatus)
+                },
+                complete: function () {
+                    console.log('结束')
+                }
+            })
+
+            var map = new BMap.Map("map");
+            map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);
+            // 创建地址解析器实例     
+            var myGeo = new BMap.Geocoder();
+            // 将地址解析结果显示在地图上，并调整地图视野    
+            myGeo.getPoint(city, function (point) {
+                if (point) {
+                    map.centerAndZoom(point, 16);
+                    map.addOverlay(new BMap.Marker(point));
+                }
+            }, city);//标注
+        }
+    </script>
+</div>
+

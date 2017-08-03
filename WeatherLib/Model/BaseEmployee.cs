@@ -14,6 +14,11 @@ namespace WeatherLib.Model
     
     public partial class BaseEmployee
     {
+        public BaseEmployee()
+        {
+            this.BASE_USER = new HashSet<BaseUser>();
+        }
+    
         public decimal ID { get; set; }
         public Nullable<decimal> EmpType { get; set; }
         public string Name { get; set; }
@@ -22,8 +27,10 @@ namespace WeatherLib.Model
         public Nullable<System.DateTime> CreateTime { get; set; }
         public string Mobile { get; set; }
         public string Address { get; set; }
-        public string Sex { get; set; }
+        public Nullable<int> Sex { get; set; }
         public Nullable<System.DateTime> UpdateTime { get; set; }
         public Nullable<decimal> UpdateID { get; set; }
+    
+        public virtual ICollection<BaseUser> BASE_USER { get; set; }
     }
 }
