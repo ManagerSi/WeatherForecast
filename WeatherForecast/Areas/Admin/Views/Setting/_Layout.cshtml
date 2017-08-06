@@ -1,0 +1,104 @@
+﻿@{
+  ViewBag.Title = "报表查询";
+  Layout = "~/Areas/Admin/Views/Shared/_AutoScrollSizeLayout.cshtml";
+}
+@section FunctionList{
+  <script type="text/javascript">
+    $(function () {
+      $(".jtips").jtip();
+      //添加控制
+      $("#searchFormBtn").show();
+      $("#searchFormBtn").click(function () {
+        // after calling click handler, the state is opps.
+        $(this).html($("#searchQueryForm").is(":visible") ? "<img src='../../../Content/admin/images/search.jpg' />显示" : "<img src='../../../Content/admin/images/search.jpg' />隐藏");
+        $("#searchQueryForm").toggle("blind");
+        setTimeout(function () { $(window).trigger("resize"); }, 600);
+      });
+      $(".leftmenu").leftAccordionMenu("@(Request.Url)");
+
+    });
+  </script>
+  <div class="pgon">
+    报表查询
+  </div>
+  <div class="leftmenu">
+    @if(!User.IsInRole(WeatherLib.Security.WeatherRole.BetaUser) && !User.IsInRole(WeatherLib.Security.WeatherRole.BetaUser))
+    { 
+        <h3>PGO销量报表</h3>
+          <div>
+              <p>
+                  · @Html.ActionLink("PG销量周报告", "ReportSaleWeekly")
+              </p>
+              <p>
+                  · @Html.ActionLink("PG销量月报告", "ReportSaleMonthly")
+              </p>
+              <p>
+                  · @Html.ActionLink("PG销量月明细报告", "ReportSaleMonthlyWithDetail")
+              </p>
+        
+
+          </div>
+    }
+
+    @if(!User.IsInRole(WeatherLib.Security.WeatherRole.BetaUser))
+    { 
+        <h3>在线考试报表</h3>
+        <div>
+            <p>
+                · @Html.ActionLink("考试结果报表", "ReportBizExamResult")
+            </p>
+
+            <p>
+                · @Html.ActionLink("已考人员报表", "ReportEmpExamed")
+            </p>
+            <p>
+                · @Html.ActionLink("未考人员报表", "ReportEmpUnExamed")
+            </p>
+            <p>
+                · @Html.ActionLink("考试统计报表（大区）", "ReportExamedByOrg")
+            </p>
+            <p>
+                · @Html.ActionLink("考试统计报表（城市）", "ReportExamedByCity")
+            </p>
+
+        </div>
+    }
+
+  </div>
+}
+
+@if (IsSectionDefined("RightFrame")) {
+  @RenderSection("RightFrame")
+} else {
+  <div style="width: 98%; overflow: hidden; margin-top: 10px;" id="headBar">
+    <div class="rightbartit">
+      <span>@ViewBag.ReportTitle</span> <span style="font-size:large;color:red"> @ViewBag.ReportRemark</span> <span class="spanr">
+        @if (null != ViewBag.ReportComment) {
+          <a href="#" title="@ViewBag.ReportComment" class="jtips">报表说明</a>
+        }
+        <!-- 新增操作按钮 -->
+        @if (IsSectionDefined("NavigationBar")) {
+          @RenderSection("NavigationBar")
+        }
+        <a href="#" id="searchFormBtn" style="display: none">
+          <img src="@Url.Content("~/Content/admin/images/search.jpg")" />隐藏
+        </a>
+        @if (ViewBag.HiddenExport == null || !ViewBag.HiddenExport) {
+          <a href="javascript:showDownloadReportDialog();">
+            <img src="@Url.Content("~/Content/admin/images/imp.png")" />
+            导出
+          </a>
+        }
+        <a href="javascript:location.reload();">
+          <img src="@Url.Content("~/Content/admin/images/refresh.jpg")" />刷新
+        </a>
+      </span>
+    </div>
+    <!--  search form start -->
+    @RenderSection("SearchForm")
+    <!--  search form end -->
+  </div>
+  <div id="queryResult">
+    @RenderBody()
+  </div>
+}

@@ -1,17 +1,17 @@
 ﻿using System.Web.Mvc;
 
-namespace WeatherForecast.Areas.Area {
-  public class AreaAreaRegistration : AreaRegistration {
+namespace WeatherForecast.Areas.Shopping {
+  public class ShoppingAreaRegistration : AreaRegistration {
     public override string AreaName {
       get {
-        return "Area";
+        return "Shopping";
       }
     }
 
     public override void RegisterArea(AreaRegistrationContext context) {
       context.MapRoute(
-          "Area_default",
-          "Area/{controller}/{action}/{id}",
+          "Shopping_default",
+          "Shopping/{controller}/{action}/{id}",
           new { action = "Index",id = UrlParameter.Optional }
       );
     }

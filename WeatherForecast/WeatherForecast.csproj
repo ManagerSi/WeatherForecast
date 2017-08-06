@@ -176,8 +176,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Areas\Area\AreaAreaRegistration.cs" />
-    <Compile Include="Areas\Area\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SettingController.cs" />
+    <Compile Include="Areas\Shopping\ShoppingAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BootstrapDemoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -251,14 +254,23 @@
     <Content Include="Content\weather\weather.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Areas\Area\Views\Web.config" />
+    <Content Include="Areas\Admin\Views\Web.config" />
     <Content Include="Images\1.jpg" />
     <Content Include="Images\2.jpg" />
     <Content Include="Images\3.jpg" />
     <Content Include="Images\4.jpg" />
     <Content Include="Json\china-city-list.json" />
-    <Content Include="Areas\Area\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Area\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Shopping\Views\Web.config" />
+    <Content Include="Areas\Admin\Views\Report\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\AjaxDialogClose.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\AjaxPaginationBar.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\PaginationBar.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_AutoScrollSizeLayout.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Setting\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Setting\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Weather.pubxml" />
     <Content Include="Scripts\bootstrap-theme.css" />
     <Content Include="Scripts\bootstrap.css" />
@@ -592,7 +604,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Area\Models\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Shopping\Controllers\" />
+    <Folder Include="Areas\Shopping\Models\" />
+    <Folder Include="Areas\Shopping\Views\Shared\" />
     <Folder Include="Content\area\" />
     <Folder Include="Scripts\kindeditor-4.1.7\attached\" />
   </ItemGroup>

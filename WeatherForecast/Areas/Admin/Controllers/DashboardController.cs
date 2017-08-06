@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using WeatherLib.Controllers;
 using WeatherLib.Security;
 
-namespace WeatherForecast.Areas.Area.Controllers
+namespace WeatherForecast.Areas.Admin.Controllers
 {
   //[SampleAuthorizeAttribute(Users = new string[]{"SI"},Roles=new string[]{"管理员"})] //role--对应SamplePrincipal中的IsInRole；Users--对应SamplePrincipal.identity.Name
   //[SampleAuthorizeAttribute]

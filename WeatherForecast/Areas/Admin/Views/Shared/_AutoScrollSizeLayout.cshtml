@@ -1,0 +1,60 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+    if (null == ViewBag.ScrollAreaMaxHight) {
+        ViewBag.ScrollAreaMaxHight = 270;
+    }
+}
+@*这个模板会自动设置Scroll元素高度*@
+<script type="text/javascript">
+
+    $(function () {
+        $(window).resize(function () {
+            var h = $(window).height() - 130 - 25;
+            if (h < 0) {
+                h = 0;
+            }
+            if (h > 450) {
+                h = 460;
+            }
+            $("#contentDiv").height(h);
+            h = $("#contentDiv").height() - $("#headBar").height() - 61;
+            //alert($(".scroll").position().top);
+            if (h < 50) {
+                h = 0;
+            }
+            if (h > @ViewBag.ScrollAreaMaxHight) {
+                h = @ViewBag.ScrollAreaMaxHight;
+            }
+            $(".scroll").height(h);
+        });
+    });
+    $(function () { $(window).trigger("resize"); });
+
+</script>
+<div style="width: 100%; height: 400px; float: left; margin-top: -60px;" id="contentDiv">
+    <div style="width:11px;  height:455px;float:left; background:url(@Url.Content("~/Content/admin/images/databg-1181.gif")) no-repeat">
+    </div>
+    <div style="height: 450px; width: 98%; float: left; margin-top: 0px; border: #ccc solid 1px;
+        border-right: 0; border-left: 0; overflow: hidden; background-color: #ffffff;">
+        <div class="leftbar">
+            <div id="frmTitle" class="leftbar_left">
+                @*<span class="spanfx">· 登陆情况分析</span><br />*@
+                @RenderSection("FunctionList")
+                <script type="text/javascript">
+                    $(function () {
+                        //var url = window
+                        $(".leftbar").markMenuUnderLine("@(Request.Url)");
+                    });
+                </script>
+            </div>
+            <div id="switchPoint" class="picBox" onclick="switchSysBar()">
+            </div>
+        </div>
+        <div class="autodiv">
+            @RenderBody()
+        </div>
+    </div>
+    <div style="width:7px; height:455px; float:left; background:url(@Url.Content("~/Content/admin/images/databgr-1181.gif")) no-repeat">
+    </div>
+</div>

@@ -65,7 +65,7 @@ namespace WeatherForecast.Controllers
                   //  return RedirectToAction("index","home");
                   //}
                   if(u.SetAuthSession(model.Account,model.PassWord,WeatherClientType.Web)) {
-                    return RedirectToAction("index","Dashboard");
+                    return RedirectToAction("index","Dashboard",new { Area = "Admin" });
                   }
                   
                 }
