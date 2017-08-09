@@ -8,11 +8,15 @@ using WeatherLib.Security;
 
 namespace WeatherForecast.Areas.Admin.Controllers
 {
-  //[SampleAuthorizeAttribute(Users = new string[]{"SI"},Roles=new string[]{"管理员"})] //role--对应SamplePrincipal中的IsInRole；Users--对应SamplePrincipal.identity.Name
-  //[SampleAuthorizeAttribute]
-  //[Authorize]
-  [Authorize(Users = "SI")]
-    public class DashboardController : BaseController
+    //[SampleAuthorizeAttribute(Users = new string[] { "SI" },Roles = new string[] { "管理员" })] //role--对应SamplePrincipal中的IsInRole；Users--对应SamplePrincipal.identity.Name
+    //[SampleAuthorizeAttribute(Roles = new string[] { "管理员","报表查询" })]
+    /*
+     *同等效果
+     *[Authorize]
+     *[Authorize(Roles = "管理员,报表查询")] //失败后需自定义跳转
+     *[Authorize(Users = "SI",Roles="管理员,报表查询")]
+     */
+  public class DashboardController : BaseController
     {
         //
         // GET: /Area/Dashbord/

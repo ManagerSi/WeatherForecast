@@ -36,7 +36,7 @@ namespace WeatherLib.Controllers {
     //权限验证失败后跳转的页面
     public bool HandleUnauthorizedRequest(AuthorizationContext filterContext) {
       //每次进入系统，自动跳到天气页面
-      filterContext.Result = RedirectToAction("Weather","home");
+      filterContext.Result = RedirectToRoute("Default",new { action = "Login",controller = "Account" }); 
       return false;
     }
 

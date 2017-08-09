@@ -8,6 +8,7 @@ using WeatherLib.Security;
 
 namespace WeatherForecast.Areas.Admin.Controllers
 {
+   [SampleAuthorizeAttribute(Roles = new string[] { "管理员","报表查询" })]
     public class ReportController : BaseController
     {
         //

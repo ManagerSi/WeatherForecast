@@ -193,6 +193,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\area\Admin\css\admin.css" />
+    <Content Include="Content\area\Admin\images\bg-head.png" />
+    <Content Include="Content\area\Admin\images\bg-head01.png" />
+    <Content Include="Content\area\Admin\images\bodyback.jpg" />
     <Content Include="Content\base\basecss.css" />
     <Content Include="Content\base\normalize.css" />
     <Content Include="Content\bootstrapDemo\ie10-viewport-bug-workaround.css" />
@@ -608,7 +612,6 @@
     <Folder Include="Areas\Shopping\Controllers\" />
     <Folder Include="Areas\Shopping\Models\" />
     <Folder Include="Areas\Shopping\Views\Shared\" />
-    <Folder Include="Content\area\" />
     <Folder Include="Scripts\kindeditor-4.1.7\attached\" />
   </ItemGroup>
   <ItemGroup>

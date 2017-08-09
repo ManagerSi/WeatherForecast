@@ -21,9 +21,9 @@ namespace WeatherForecast
                     controller = "Home",
                     action = "Index",
                     id = UrlParameter.Optional
-                },
-                namespaces: new string[] { "WeatherForecast.Controllers.HomeController" }
+                }
             );
+          
         }
     }
 }

@@ -23,7 +23,7 @@ namespace WeatherLib.Security {
       }
       // built-in Role: UserType 
       // one passport
-      if(role == WeatherRole.UserTypeWap) {
+      if(role == WeatherLib.Security.WeatherRole.BetaUser) {
         return true;
       }
 
@@ -205,12 +205,12 @@ namespace WeatherLib.Security {
 
       // built-in Rule: RoleAdmin
       if (rst.Contains(WeatherRole.RoleAdmin)) {
-        rst.Add(WeatherRole.PGM_HC);
-        rst.Add(WeatherRole.KPIOrgViewer);
-        rst.Add(WeatherRole.KPIHCTopListViewer);
-        rst.Add(WeatherRole.KPIAreaListViewer);
-        rst.Add(WeatherRole.CoachViewer);
-        rst.Add(WeatherRole.KPIDataSetting);
+        //rst.Add(WeatherRole.PGM_HC);
+        //rst.Add(WeatherRole.KPIOrgViewer);
+        //rst.Add(WeatherRole.KPIHCTopListViewer);
+        //rst.Add(WeatherRole.KPIAreaListViewer);
+        //rst.Add(WeatherRole.CoachViewer);
+        //rst.Add(WeatherRole.KPIDataSetting);
       }
 
       //2014-10-28 Rule:负责产品
@@ -223,9 +223,7 @@ namespace WeatherLib.Security {
           rst.Add(WeatherRole.PGMTypePrefix);
         } else if (r.StartsWith(WeatherRole.CoachTypePrefix)) { // built-in Role: Coach-
           rst.Add(WeatherRole.CoachTypePrefix);
-        } else if (r.StartsWith(WeatherRole.KPITypePrefix)) { // built-in Role: KPI-
-          rst.Add(WeatherRole.KPITypePrefix);
-        }
+        } 
       }
       return rst;
     }

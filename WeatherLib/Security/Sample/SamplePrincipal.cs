@@ -22,7 +22,7 @@ namespace WeatherLib.Security {
     }
 
     public bool IsInRole(string role) {
-      return identity.Roles.Contains(role);
+      return identity.Roles != null && identity.Roles.Contains(role);
     }
 
     #endregion

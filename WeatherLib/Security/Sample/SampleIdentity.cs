@@ -74,7 +74,7 @@ namespace WeatherLib.Security {
     #region IIdentity 成员
 
     public string AuthenticationType {
-      get { return "TSIC"; }
+      get { return "Weather"; }
     }
 
     public bool IsAuthenticated {

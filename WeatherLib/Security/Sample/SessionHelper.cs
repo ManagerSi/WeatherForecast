@@ -126,6 +126,7 @@ namespace WeatherLib.Security {
         throw new InvalidOperationException();
       }
       HttpContext.Current.Session.Add(key,value);
+      HttpContext.Current.Session.Timeout = 120;
     }
     
   }

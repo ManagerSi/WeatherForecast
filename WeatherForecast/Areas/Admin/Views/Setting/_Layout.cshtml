@@ -20,8 +20,18 @@
   </script>
   <div class="pgon">
     报表查询
+     
   </div>
+
   <div class="leftmenu">
+      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          Button with data-target
+      </button>
+      <div class="collapse" id="collapseExample">
+          <div class="well">
+              ...
+          </div>
+      </div>
     @if(!User.IsInRole(WeatherLib.Security.WeatherRole.BetaUser) && !User.IsInRole(WeatherLib.Security.WeatherRole.BetaUser))
     { 
         <h3>PGO销量报表</h3>

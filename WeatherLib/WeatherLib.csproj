@@ -154,6 +154,7 @@
     </Compile>
     <Compile Include="Helper\ActionLinkExtensions.cs" />
     <Compile Include="Helper\HtmlPrefixScopeExtensions.cs" />
+    <Compile Include="Helper\MvcHtmlStringExtensions.cs" />
     <Compile Include="Helper\StringExtensions.cs" />
     <Compile Include="Infrastructure\BLL\BLLFactory.cs" />
     <Compile Include="Infrastructure\BLL\BLLService.cs" />
