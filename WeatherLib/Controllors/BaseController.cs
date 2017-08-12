@@ -37,7 +37,7 @@ namespace WeatherLib.Controllers {
     public bool HandleUnauthorizedRequest(AuthorizationContext filterContext) {
       //每次进入系统，自动跳到天气页面
       filterContext.Result = RedirectToRoute("Default",new { action = "Login",controller = "Account" }); 
-      return false;
+      return true;
     }
 
     protected static int count = 0;

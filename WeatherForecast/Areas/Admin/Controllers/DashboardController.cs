@@ -9,7 +9,7 @@ using WeatherLib.Security;
 namespace WeatherForecast.Areas.Admin.Controllers
 {
     //[SampleAuthorizeAttribute(Users = new string[] { "SI" },Roles = new string[] { "管理员" })] //role--对应SamplePrincipal中的IsInRole；Users--对应SamplePrincipal.identity.Name
-    //[SampleAuthorizeAttribute(Roles = new string[] { "管理员","报表查询" })]
+    [SampleAuthorizeAttribute(Roles = new string[] { "管理员","报表查询" })]
     /*
      *同等效果
      *[Authorize]

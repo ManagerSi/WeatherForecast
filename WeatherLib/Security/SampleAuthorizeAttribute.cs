@@ -19,6 +19,9 @@ namespace WeatherLib.Security {
       get { return base.Users.Split(',').Where(i => !string.IsNullOrEmpty(i)).ToArray(); }
       set { base.Users = string.Join(",", value); }
     }
+
+
+    #region 源码示例
     protected override bool AuthorizeCore(HttpContextBase httpContext) {
       if(httpContext == null) {
         throw new ArgumentNullException("httpContext");
@@ -67,6 +70,8 @@ namespace WeatherLib.Security {
         base.HandleUnauthorizedRequest(filterContext);
       }
     }
+
+    #endregion
   }
   /// <summary>
   /// 授权Deny
