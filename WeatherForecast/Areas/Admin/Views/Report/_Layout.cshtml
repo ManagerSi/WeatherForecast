@@ -21,29 +21,29 @@
   <div class="pgon">
     报表查询
   </div>
+
+
   <div class="leftmenu">
-    @if(!User.IsInRole(WeatherLib.Security.WeatherRole.BetaUser) && !User.IsInRole(WeatherLib.Security.WeatherRole.BetaUser))
-    { 
-        <h3>PGO销量报表</h3>
-          <div>
-              <p>
-                  · @Html.ActionLink("PG销量周报告", "ReportSaleWeekly")
-              </p>
-              <p>
-                  · @Html.ActionLink("PG销量月报告", "ReportSaleMonthly")
-              </p>
-              <p>
-                  · @Html.ActionLink("PG销量月明细报告", "ReportSaleMonthlyWithDetail")
-              </p>
-        
+    @if(!User.IsInRole(WeatherLib.Security.WeatherRole.BetaUser) && !User.IsInRole(WeatherLib.Security.WeatherRole.BetaUser)) {
+        <h3 class="btn btn-primary" data-toggle="collapse" data-target="#pg_collapse" aria-expanded="false" aria-controls="pg_collapse">PGO销量报表</h3>
+        <div class="collapse" id="pg_collapse">
+            <p>
+                · @Html.ActionLink("PG销量周报告","ReportSaleWeekly")
+            </p>
+            <p>
+                · @Html.ActionLink("PG销量月报告","ReportSaleMonthly")
+            </p>
+            <p>
+                · @Html.ActionLink("PG销量月明细报告","ReportSaleMonthlyWithDetail")
+            </p>
 
-          </div>
-    }
 
-    @if(!User.IsInRole(WeatherLib.Security.WeatherRole.BetaUser))
-    { 
-        <h3>在线考试报表</h3>
-        <div>
+        </div>
+        }
+
+    @if(!User.IsInRole(WeatherLib.Security.WeatherRole.BetaUser)) {
+        <h3 class="btn btn-primary" data-toggle="collapse" data-target="#exam_collapse" aria-expanded="false" aria-controls="exam_collapse">在线考试报表</h3>
+        <div class="collapse" id="exam_collapse">
             <p>
                 · @Html.ActionLink("考试结果报表", "ReportBizExamResult")
             </p>

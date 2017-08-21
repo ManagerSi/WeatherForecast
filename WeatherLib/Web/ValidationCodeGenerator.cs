@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Web;
-using Mobizone.TSIC.Utility;
-namespace Mobizone.TSIC.Web {
+using WeatherLib.Utility;
+namespace WeatherLib.Web {
   public class ValidationCodeGenerator {
     public HttpResponseBase Response { get; set; }
     public ValidationCodeGenerator(HttpResponseBase response) {

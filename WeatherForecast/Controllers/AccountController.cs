@@ -16,43 +16,34 @@ using WeatherLib.BLL;
 using WeatherLib.Controllers;
 using WeatherLib.Security;
 using WeatherLib.Utility;
+using WeatherLib.Web;
+using System.Net;
 namespace WeatherForecast.Controllers
 {
     public class AccountController : BaseController
     {
-      //protected WeatherAuthorizationService AuthorizationService { get; set; }
-        //public  string conStr
-        //{
-        //    get
-        //    {
-        //        return System.Configuration.ConfigurationManager.ConnectionStrings["SqlDBContext"].ToString();
-        //    }
-        //}
-        //public WeatherDBContext sqldb
-        //{
-        //    get
-        //    {
-        //        return new WeatherDBContext(conStr);
-        //    }
-        //}
-        //public MongoDatabase mongodb
-        //{
-        //  get {
-        //    return TSICMongoDocContext.ConnectDB();
-        //  }
-        //}
 
-
-        //
+      public FileResult ValidationCode() {
+        ValidationCodeGenerator vc = new ValidationCodeGenerator(Response);
+        return File(vc.Generate(),vc.ContentType);
+      }
         // GET: /Account/
         public ActionResult Login()
         {
             LoginModel model = new LoginModel();
+            var account = Request.Cookies["RememberMe"];
+            if(account != null) {
+              model.Account = account.Value;
+            }
+          
             return View(model);
         }
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {
+          if(!ValidationCodeGenerator.ValidateCode(model.ValidationCode)) {
+            ModelState.AddModelError("ValidationCode","验证码错误");
+          }
             if(ModelState.IsValid)
             {
               var u = BLLFactory.Create<IBaseUserBL>();
@@ -61,9 +52,22 @@ namespace WeatherForecast.Controllers
                 var user = u.GetUserInWeb(model.Account,model.PassWord);
                 if(user != null) {
 
-                  //if(AuthorizationService.SetAuthSession(model.Account,model.PassWord,WeatherClientType.Web)) {
-                  //  return RedirectToAction("index","home");
-                  //}
+                  if(!string.IsNullOrEmpty(model.RememberMe)) {
+                    var account = Response.Cookies["RememberMe"];
+                    if(account == null) {
+                      account = new HttpCookie("RememberMe");
+                    }
+                    account.Value = model.Account;
+                    account.Expires = DateTime.Now.AddMonths(1);
+                    Response.SetCookie(account);  
+
+                  } else {
+                    var account = Response.Cookies["RememberMe"];
+                    if(account != null) {
+                      account.Expires = DateTime.Now.AddMonths(-1);
+                      Response.SetCookie(account);  
+                    }
+                  }
                   if(u.SetAuthSession(model.Account,model.PassWord,WeatherClientType.Web)) {
                     return RedirectToAction("index","Dashboard",new { Area = "Admin" });
                   }

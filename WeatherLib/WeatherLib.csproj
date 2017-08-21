@@ -227,6 +227,7 @@
     <Compile Include="Web\SessionState\ClientSessionPersisiter.cs" />
     <Compile Include="Web\SessionState\SessionFactory.cs" />
     <Compile Include="Web\SessionState\SessionPersisiter.cs" />
+    <Compile Include="Web\ValidationCodeGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Model\WeatherModel.edmx">

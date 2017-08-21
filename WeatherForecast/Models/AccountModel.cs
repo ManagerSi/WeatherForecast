@@ -20,5 +20,16 @@ namespace WeatherForecast.Models
             get;
             set;
         }
+       [Required]
+        public string ValidationCode
+        {
+            get;
+            set;
+        }
+       public string RememberMe {
+         get;
+         set;
+       }
+      
     }
 }
