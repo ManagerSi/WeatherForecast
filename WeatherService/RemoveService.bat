@@ -1,0 +1,1 @@
+C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\InstallUtil.exe /u F:\ManagersiGitHub\WeatherForecast\WeatherService\bin\Debug\WeatherService.exe
