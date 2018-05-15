@@ -8,21 +8,17 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <title>雅培中国-@ViewBag.Title</title>
-
+    
     <script src="~/Scripts/jquery-2.1.4.min.js"></script>
     <link href="~/Scripts/bootstrap.css" rel="stylesheet" />
     <link href="~/Scripts/bootstrap-theme.css" rel="stylesheet" />
     <script src="~/Scripts/bootstrap.js"></script>
+    
     <link href="~/Content/area/Admin/css/admin.css" rel="stylesheet" />
 
     <script type="text/javascript">
         function switchSysBar() {
-            $(".leftbar_left").toggle("slide", {}, 500, function () {
-                var url = $(".leftbar_left").is(":visible") ?
-            'url("@Url.Content("~/Content/admin/images/rlbtn.jpg")")' :
-            'url("@Url.Content("~/Content/admin/images/leftbtn.jpg")")';
-                $("#switchPoint").css("backgroundImage", url);
-            });
+            $(".leftbar_left").slideToggle();
         }
         $(function () {
             $("firstFieldSelector").focus(function () { return false; });
@@ -67,31 +63,7 @@
     <div id="ajaxErrorDialog" style="display: none">
     </div>
     <div class="indexbox">
-        <!-- nav start -->
-        @*<h3 class="pull-left text-center" style="width:20%;margin-top: -5px;">MyWeb</h3>
-            <ul class="nav nav-tabs">
-                @helper NavItem(string name,string contorllerName) {
-                    <li role="presentation" class="@(contorllerName == ViewBag.CurrentControllerName ? " active" : "")">@Html.ActionLink(name,"Index",contorllerName)</li>
-                }
-
-                @if(User.IsInRole(WeatherLib.Security.WeatherRole.RoleAdmin)) {
-                    @NavItem("首页","Dashboard")
-                }
-
-
-                @if(User.IsInRole(WeatherLib.Security.WeatherRole.RoleAdmin)) {
-                    @NavItem("报表查询","Report")
-                }
-
-                @if(User.IsInRole(WeatherLib.Security.WeatherRole.RoleAdmin)) {
-                    @NavItem("系统设置","Setting")
-                }
-                <text class="pull-right">
-                    您好! @((User.Identity as WeatherLib.Security.SampleIdentity).BaseEmployee.Name)，欢迎登录！今天是
-                    @System.DateTime.Now.ToShortDateString()
-                    @Html.ActionLink("退出","LoginOut","AdminAccount",new { @class="button"})
-                </text>
-            </ul>*@
+       
         <div id="head-bg">
             <div class="pull-right head-login">
                 您好! @((User.Identity as WeatherLib.Security.SampleIdentity).BaseEmployee.Name)，欢迎登录！今天是

@@ -8,11 +8,14 @@
         <EntityTypeShape EntityType="WeatherDB.BaseEmployee" Width="1.5" PointX="0.75" PointY="1" />
         <EntityTypeShape EntityType="WeatherDB.BaseUser" Width="1.5" PointX="3" PointY="1.375" />
         <AssociationConnector Association="WeatherDB.FK_BASE_USER_BASE_EMPLOYEE" />
-        <EntityTypeShape EntityType="WeatherDB.BASE_ROLE" Width="1.5" PointX="3.375" PointY="5.375" />
+        <EntityTypeShape EntityType="WeatherDB.BASE_ROLE" Width="1.5" PointX="3.375" PointY="4.875" />
         <EntityTypeShape EntityType="WeatherDB.BASE_USER_ROLE" Width="1.5" PointX="5.625" PointY="1.75" />
-        <EntityTypeShape EntityType="WeatherDB.JD_Product" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="WeatherDB.JD_Product" Width="1.5" PointX="0.75" PointY="4.875" />
         <AssociationConnector Association="WeatherDB.FK_BASE_USE_REFERENCE_BASE_ROL" />
         <AssociationConnector Association="WeatherDB.FK_BASE_USER_ROLE_BASE_USER" />
+        <EntityTypeShape EntityType="WeatherDB.WeacherCity" Width="1.5" PointX="5.375" PointY="4.75" />
+        <EntityTypeShape EntityType="WeatherDB.WeatherDailyForecast" Width="1.5" PointX="7.125" PointY="4.25" />
+        <EntityTypeShape EntityType="WeatherDB.WeatherCity" Width="1.5" PointX="9" PointY="4" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

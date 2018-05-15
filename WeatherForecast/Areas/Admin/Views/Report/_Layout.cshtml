@@ -2,69 +2,58 @@
   ViewBag.Title = "报表查询";
   Layout = "~/Areas/Admin/Views/Shared/_AutoScrollSizeLayout.cshtml";
 }
+<!-- 左边功能列表 -->
 @section FunctionList{
+    <!--//左边折叠代码-->
+    <script src="~/Content/area/Admin/js/accordion.js"></script>
   <script type="text/javascript">
     $(function () {
-      $(".jtips").jtip();
-      //添加控制
-      $("#searchFormBtn").show();
-      $("#searchFormBtn").click(function () {
-        // after calling click handler, the state is opps.
-        $(this).html($("#searchQueryForm").is(":visible") ? "<img src='../../../Content/admin/images/search.jpg' />显示" : "<img src='../../../Content/admin/images/search.jpg' />隐藏");
-        $("#searchQueryForm").toggle("blind");
-        setTimeout(function () { $(window).trigger("resize"); }, 600);
-      });
-      $(".leftmenu").leftAccordionMenu("@(Request.Url)");
-
+        
+      ////$(".jtips").jtip();
+      ////添加控制
+      //$("#searchFormBtn").show();
+      //$("#searchFormBtn").click(function () {
+      //  // after calling click handler, the state is opps.
+      //  $(this).html($("#searchQueryForm").is(":visible") ? "<img src='../../../Content/admin/images/search.jpg' />显示" : "<img src='../../../Content/admin/images/search.jpg' />隐藏");
+      //  $("#searchQueryForm").toggle("blind");
+      //  setTimeout(function () { $(window).trigger("resize"); }, 600);
+      //});
+      //$(".leftmenu").leftAccordionMenu("@(Request.Url)");
+      
     });
   </script>
   <div class="pgon">
     报表查询
   </div>
+  <div class="leftmenu" id="leftmenu">
+       <ul id="accordion" class="accordion">
+         @if(!User.IsInRole(WeatherLib.Security.WeatherRole.BetaUser)) {
+          <li class="">
+              <div class="link btn btn-primary btn-sm btn-block">在线考试报表</div>
+              <ul class="submenu" style="display: none;">
+                  <li>@Html.ActionLink("考试结果报表1","ReportBizExamResult")</li>
+                  <li>@Html.ActionLink("考试结果报表2","ReportBizExamResult")</li>
+                  <li>@Html.ActionLink("考试结果报表3","ReportBizExamResult")</li>
+                  <li>@Html.ActionLink("考试结果报表4","ReportBizExamResult")</li>
+              </ul>
+          </li>
+          }
+          <li class="">
+              <div class="link btn btn-primary btn-sm btn-block">在线考试报表</div>
+              <ul class="submenu" style="display: none;">
+                @if(!User.IsInRole(WeatherLib.Security.WeatherRole.BetaUser)) {
+                   <li>@Html.ActionLink("考试结果报表1","ReportBizExamResult")</li>
+                }
+                  <li>@Html.ActionLink("考试结果报表2","ReportBizExamResult")</li>
+                  <li>@Html.ActionLink("考试结果报表3","ReportBizExamResult")</li>
+                  <li>@Html.ActionLink("考试结果报表4","ReportBizExamResult")</li>
+              </ul>
+          </li>
+          
+      </ul>
 
+</div>
 
-  <div class="leftmenu">
-    @if(!User.IsInRole(WeatherLib.Security.WeatherRole.BetaUser) && !User.IsInRole(WeatherLib.Security.WeatherRole.BetaUser)) {
-        <h3 class="btn btn-primary" data-toggle="collapse" data-target="#pg_collapse" aria-expanded="false" aria-controls="pg_collapse">PGO销量报表</h3>
-        <div class="collapse" id="pg_collapse">
-            <p>
-                · @Html.ActionLink("PG销量周报告","ReportSaleWeekly")
-            </p>
-            <p>
-                · @Html.ActionLink("PG销量月报告","ReportSaleMonthly")
-            </p>
-            <p>
-                · @Html.ActionLink("PG销量月明细报告","ReportSaleMonthlyWithDetail")
-            </p>
-
-
-        </div>
-        }
-
-    @if(!User.IsInRole(WeatherLib.Security.WeatherRole.BetaUser)) {
-        <h3 class="btn btn-primary" data-toggle="collapse" data-target="#exam_collapse" aria-expanded="false" aria-controls="exam_collapse">在线考试报表</h3>
-        <div class="collapse" id="exam_collapse">
-            <p>
-                · @Html.ActionLink("考试结果报表", "ReportBizExamResult")
-            </p>
-
-            <p>
-                · @Html.ActionLink("已考人员报表", "ReportEmpExamed")
-            </p>
-            <p>
-                · @Html.ActionLink("未考人员报表", "ReportEmpUnExamed")
-            </p>
-            <p>
-                · @Html.ActionLink("考试统计报表（大区）", "ReportExamedByOrg")
-            </p>
-            <p>
-                · @Html.ActionLink("考试统计报表（城市）", "ReportExamedByCity")
-            </p>
-
-        </div>
-    }
-
-  </div>
 }
 
 @if (IsSectionDefined("RightFrame")) {

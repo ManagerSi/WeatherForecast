@@ -65,6 +65,56 @@
           <Property Name="price" Type="float" />
           <Property Name="title" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="WEATHER_CITY">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CITY_CODE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NAME_EN" Type="varchar" MaxLength="50" />
+          <Property Name="NAME_CN" Type="nvarchar" MaxLength="50" />
+          <Property Name="COUNTRY_CODE" Type="varchar" MaxLength="50" />
+          <Property Name="COUNTRY_EN" Type="varchar" MaxLength="50" />
+          <Property Name="COUNTRY_CN" Type="nvarchar" MaxLength="50" />
+          <Property Name="PROVINCE_EN" Type="varchar" MaxLength="50" />
+          <Property Name="PROVINCE_CN" Type="nvarchar" MaxLength="50" />
+          <Property Name="PARENT_ID" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="PARENT_EN" Type="varchar" MaxLength="50" />
+          <Property Name="PARENT_CN" Type="nvarchar" MaxLength="50" />
+          <Property Name="LONGITUDE" Type="varchar" MaxLength="50" />
+          <Property Name="LATITUDE" Type="varchar" MaxLength="50" />
+          <Property Name="STATE" Type="varchar" MaxLength="5" />
+          <Property Name="LEVEL" Type="varchar" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="WEATHER_Daily_Forecast">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="decimal" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="city_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="city_code" Type="varchar" MaxLength="50" />
+          <Property Name="astro_mr" Type="varchar" MaxLength="50" />
+          <Property Name="astro_ms" Type="varchar" MaxLength="50" />
+          <Property Name="astro_sr" Type="varchar" MaxLength="50" />
+          <Property Name="astro_ss" Type="varchar" MaxLength="50" />
+          <Property Name="cond_code_d" Type="varchar" MaxLength="50" />
+          <Property Name="cond_code_n" Type="varchar" MaxLength="50" />
+          <Property Name="cond_txt_d" Type="varchar" MaxLength="50" />
+          <Property Name="cond_txt_n" Type="varchar" MaxLength="50" />
+          <Property Name="date" Type="varchar" MaxLength="50" />
+          <Property Name="hum" Type="float" />
+          <Property Name="pcpn" Type="float" />
+          <Property Name="pop" Type="float" />
+          <Property Name="pres" Type="float" />
+          <Property Name="tmp_max" Type="float" />
+          <Property Name="tmp_min" Type="float" />
+          <Property Name="vis" Type="float" />
+          <Property Name="wind_deg" Type="float" />
+          <Property Name="wind_dir" Type="varchar" MaxLength="50" />
+          <Property Name="wind_sc" Type="varchar" MaxLength="50" />
+          <Property Name="wind_spd" Type="float" />
+          <Property Name="state" Type="varchar" MaxLength="5" />
+        </EntityType>
         <Association Name="FK_BASE_USE_REFERENCE_BASE_ROL">
           <End Role="BASE_ROLE" Type="Self.BASE_ROLE" Multiplicity="0..1" />
           <End Role="BASE_USER_ROLE" Type="Self.BASE_USER_ROLE" Multiplicity="*" />
@@ -107,6 +157,8 @@
           <EntitySet Name="BASE_USER" EntityType="Self.BASE_USER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BASE_USER_ROLE" EntityType="Self.BASE_USER_ROLE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JD_Product" EntityType="Self.JD_Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WEATHER_CITY" EntityType="Self.WEATHER_CITY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WEATHER_Daily_Forecast" EntityType="Self.WEATHER_Daily_Forecast" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_BASE_USE_REFERENCE_BASE_ROL" Association="Self.FK_BASE_USE_REFERENCE_BASE_ROL">
             <End Role="BASE_ROLE" EntitySet="BASE_ROLE" />
             <End Role="BASE_USER_ROLE" EntitySet="BASE_USER_ROLE" />
@@ -142,6 +194,8 @@
             <End Role="BaseUser" EntitySet="BASE_USER" />
             <End Role="BASE_USER_ROLE" EntitySet="BASE_USER_ROLE" />
           </AssociationSet>
+          <EntitySet Name="WEATHER_CITY" EntityType="WeatherDB.WeatherCity" />
+          <EntitySet Name="WEATHER_Daily_Forecast" EntityType="WeatherDB.WeatherDailyForecast" />
         </EntityContainer>
         <EntityType Name="BaseEmployee">
           <Key>
@@ -245,6 +299,56 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="WeatherCity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="CityCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NameEN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name_CN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CountryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CountryEN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CountryCN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProvinceEN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProvinceCN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParentID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ParentEN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ParentCN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Longitude" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Latitude" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Level" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="WeatherDailyForecast">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AstroMR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AstroMS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AstroSR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AstroSS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CondCodeD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CondCodeN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CondTxtD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CondTxtN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Hum" Type="Double" />
+          <Property Name="Pcpn" Type="Double" />
+          <Property Name="Pop" Type="Double" />
+          <Property Name="Pres" Type="Double" />
+          <Property Name="TmpMax" Type="Double" />
+          <Property Name="TmpMin" Type="Double" />
+          <Property Name="Vis" Type="Double" />
+          <Property Name="WindDeg" Type="Double" />
+          <Property Name="WindDir" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="WindSC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="WindSpd" Type="Double" />
+          <Property Name="CityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CityCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -313,6 +417,58 @@
                 <ScalarProperty Name="url" ColumnName="url" />
                 <ScalarProperty Name="sku" ColumnName="sku" />
                 <ScalarProperty Name="ID" ColumnName="pid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WEATHER_CITY">
+            <EntityTypeMapping TypeName="WeatherDB.WeatherCity">
+              <MappingFragment StoreEntitySet="WEATHER_CITY">
+                <ScalarProperty Name="Level" ColumnName="LEVEL" />
+                <ScalarProperty Name="State" ColumnName="STATE" />
+                <ScalarProperty Name="Latitude" ColumnName="LATITUDE" />
+                <ScalarProperty Name="Longitude" ColumnName="LONGITUDE" />
+                <ScalarProperty Name="ParentCN" ColumnName="PARENT_CN" />
+                <ScalarProperty Name="ParentEN" ColumnName="PARENT_EN" />
+                <ScalarProperty Name="ParentID" ColumnName="PARENT_ID" />
+                <ScalarProperty Name="ProvinceCN" ColumnName="PROVINCE_CN" />
+                <ScalarProperty Name="ProvinceEN" ColumnName="PROVINCE_EN" />
+                <ScalarProperty Name="CountryCN" ColumnName="COUNTRY_CN" />
+                <ScalarProperty Name="CountryEN" ColumnName="COUNTRY_EN" />
+                <ScalarProperty Name="CountryCode" ColumnName="COUNTRY_CODE" />
+                <ScalarProperty Name="Name_CN" ColumnName="NAME_CN" />
+                <ScalarProperty Name="NameEN" ColumnName="NAME_EN" />
+                <ScalarProperty Name="CityCode" ColumnName="CITY_CODE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WEATHER_Daily_Forecast">
+            <EntityTypeMapping TypeName="WeatherDB.WeatherDailyForecast">
+              <MappingFragment StoreEntitySet="WEATHER_Daily_Forecast">
+                <ScalarProperty Name="State" ColumnName="state" />
+                <ScalarProperty Name="CityCode" ColumnName="city_code" />
+                <ScalarProperty Name="CityName" ColumnName="city_name" />
+                <ScalarProperty Name="WindSpd" ColumnName="wind_spd" />
+                <ScalarProperty Name="WindSC" ColumnName="wind_sc" />
+                <ScalarProperty Name="WindDir" ColumnName="wind_dir" />
+                <ScalarProperty Name="WindDeg" ColumnName="wind_deg" />
+                <ScalarProperty Name="Vis" ColumnName="vis" />
+                <ScalarProperty Name="TmpMin" ColumnName="tmp_min" />
+                <ScalarProperty Name="TmpMax" ColumnName="tmp_max" />
+                <ScalarProperty Name="Pres" ColumnName="pres" />
+                <ScalarProperty Name="Pop" ColumnName="pop" />
+                <ScalarProperty Name="Pcpn" ColumnName="pcpn" />
+                <ScalarProperty Name="Hum" ColumnName="hum" />
+                <ScalarProperty Name="Date" ColumnName="date" />
+                <ScalarProperty Name="CondTxtN" ColumnName="cond_txt_n" />
+                <ScalarProperty Name="CondTxtD" ColumnName="cond_txt_d" />
+                <ScalarProperty Name="CondCodeN" ColumnName="cond_code_n" />
+                <ScalarProperty Name="CondCodeD" ColumnName="cond_code_d" />
+                <ScalarProperty Name="AstroSS" ColumnName="astro_ss" />
+                <ScalarProperty Name="AstroSR" ColumnName="astro_sr" />
+                <ScalarProperty Name="AstroMS" ColumnName="astro_ms" />
+                <ScalarProperty Name="AstroMR" ColumnName="astro_mr" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -64,7 +64,11 @@ namespace WeatherLib.BLL
       }
         
         public override JD_Product InsertOrUpdate(JD_Product entity) {
-          throw new NotImplementedException();
+            if (entity.ID == 0) {
+    	    return Insert(entity);
+    	  }
+    	  Update(entity);
+    	  return entity;
           }
     
     }

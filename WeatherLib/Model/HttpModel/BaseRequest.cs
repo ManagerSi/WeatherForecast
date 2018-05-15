@@ -10,6 +10,9 @@ namespace WeatherLib.Model {
     public string Function { get; set; }
     public string city { get; set; }
     public string lang { get; set; }
+    public string username { get; set; }
+    public string t { get; set; }
+
   }
 
   public enum WeatherFunction {

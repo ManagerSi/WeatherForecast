@@ -64,7 +64,11 @@ namespace WeatherLib.BLL
       }
         
         public override BASE_ROLE InsertOrUpdate(BASE_ROLE entity) {
-          throw new NotImplementedException();
+            if (entity.ID == 0) {
+    	    return Insert(entity);
+    	  }
+    	  Update(entity);
+    	  return entity;
           }
     
     }

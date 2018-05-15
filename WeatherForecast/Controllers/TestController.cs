@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WeatherForecast.Utility;
 
 namespace WeatherForecast.Controllers
 {
+    [CustomHandleErrorAttribute] // 异常处理
     public class TestController : Controller
     {
         //
@@ -13,6 +15,8 @@ namespace WeatherForecast.Controllers
 
         public ActionResult Index()
         {
+          var k = 0;
+          var i = 10 / k;
             return View();
         }
 

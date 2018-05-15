@@ -22,6 +22,13 @@ namespace WeatherLib.Model
     }
 
     public override int SaveChanges() {
+      //var i = -1;
+      //try {
+      //  i = base.SaveChanges();
+      //} catch(System.Data.Entity.Validation.DbEntityValidationException e) {
+      //  Console.Write(e);
+      //}
+      //return i;
       return base.SaveChanges();
     }
 

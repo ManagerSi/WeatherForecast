@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SI.DB.MySql", "SI.DB.MySql\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SI.DB.SqlServer", "SI.DB.SqlServer\SI.DB.SqlServer.csproj", "{8213810C-4D22-40F0-A8B2-84B288686E21}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherService", "WeatherService\WeatherService.csproj", "{27CB49B8-B59F-4526-828C-EC654F3CECE4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,10 @@ Global
 		{8213810C-4D22-40F0-A8B2-84B288686E21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8213810C-4D22-40F0-A8B2-84B288686E21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8213810C-4D22-40F0-A8B2-84B288686E21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27CB49B8-B59F-4526-828C-EC654F3CECE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27CB49B8-B59F-4526-828C-EC654F3CECE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27CB49B8-B59F-4526-828C-EC654F3CECE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27CB49B8-B59F-4526-828C-EC654F3CECE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

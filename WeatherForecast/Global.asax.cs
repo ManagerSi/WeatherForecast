@@ -33,5 +33,15 @@ namespace WeatherForecast
       //Mobizone.TSIC.Models.TSICMongoDocContext.InitClient();
 #endif
         }
+
+        /// <summary>
+        /// 全局异常处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="ex"></param>
+        protected void Application_Error(object sender,EventArgs ex) {
+          var error = Server.GetLastError();
+          
+        }
     }
 }

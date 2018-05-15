@@ -35,6 +35,8 @@ namespace WeatherLib.BLL
                 RegisterBL("IBASE_ROLEBL", typeof(IBASE_ROLEBL), typeof(BASE_ROLEBL));
                 RegisterBL("IBASE_USER_ROLEBL", typeof(IBASE_USER_ROLEBL), typeof(BASE_USER_ROLEBL));
                 RegisterBL("IJD_ProductBL", typeof(IJD_ProductBL), typeof(JD_ProductBL));
+                RegisterBL("IWeatherCityBL", typeof(IWeatherCityBL), typeof(WeatherCityBL));
+                RegisterBL("IWeatherDailyForecastBL", typeof(IWeatherDailyForecastBL), typeof(WeatherDailyForecastBL));
                 ExtraInit(); 
     			//RegisterDocBL();
             }

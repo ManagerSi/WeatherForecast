@@ -191,12 +191,14 @@
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\WeatherModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\CustomHandleErrorAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\area\Admin\css\admin.css" />
     <Content Include="Content\area\Admin\images\bg-head.png" />
     <Content Include="Content\area\Admin\images\bg-head01.png" />
     <Content Include="Content\area\Admin\images\bodyback.jpg" />
+    <Content Include="Content\area\Admin\js\accordion.js" />
     <Content Include="Content\base\basecss.css" />
     <Content Include="Content\base\normalize.css" />
     <Content Include="Content\bootstrapDemo\ie10-viewport-bug-workaround.css" />

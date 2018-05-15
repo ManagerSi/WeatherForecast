@@ -81,6 +81,12 @@
     <Compile Include="Generic\Common.cs" />
     <Compile Include="Generic\GenericClass.cs" />
     <Compile Include="Generic\GenericConstraint.cs" />
+    <Compile Include="MyAbstract\Abstract\IExtent.cs" />
+    <Compile Include="MyAbstract\Abstract\BasePhone.cs" />
+    <Compile Include="MyAbstract\Abstract\Lumia.cs" />
+    <Compile Include="MyAbstract\Abstract\Iphone.cs" />
+    <Compile Include="MyAbstract\Abstract\Student.cs" />
+    <Compile Include="MyAbstract\Abstract\Mi.cs" />
     <Compile Include="MyAbstract\Fire.cs" />
     <Compile Include="MyAbstract\IPay.cs" />
     <Compile Include="MyAbstract\East.cs" />

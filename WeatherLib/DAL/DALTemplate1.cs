@@ -112,5 +112,31 @@ namespace WeatherLib.DAL
       }
       
     
+      private WeatherCityRepository _WeatherCityRepository = null;
+      public WeatherCityRepository WeatherCityRepository {
+        get
+    	{
+    	  if (_WeatherCityRepository == null)
+    	  {
+    	    _WeatherCityRepository = new WeatherCityRepository(this);
+    	  }
+    	  return _WeatherCityRepository;
+    	}
+      }
+      
+    
+      private WeatherDailyForecastRepository _WeatherDailyForecastRepository = null;
+      public WeatherDailyForecastRepository WeatherDailyForecastRepository {
+        get
+    	{
+    	  if (_WeatherDailyForecastRepository == null)
+    	  {
+    	    _WeatherDailyForecastRepository = new WeatherDailyForecastRepository(this);
+    	  }
+    	  return _WeatherDailyForecastRepository;
+    	}
+      }
+      
+    
     }
 }

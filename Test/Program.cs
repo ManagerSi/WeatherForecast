@@ -67,14 +67,15 @@ namespace TaskTest {
       //GenericConstraint.SayHi(p);
       #endregion
       #region abstract
-      //TaskTest.MyAbstract.StartProgram.startMain();     
+      //TaskTest.MyAbstract.StartProgram.startMain();
+      TaskTest.MyAbstract.StartProgram.startMain1();     
       #endregion
       #region IO
       //TaskTest.MySerialize.MyIO.Show();
       #endregion 
 
       #region async 
-      TaskTest.MyAsync.AsyncMain asy = new AsyncMain();
+     // TaskTest.MyAsync.AsyncMain asy = new AsyncMain();
       //asy.Example();
       #endregion 
 

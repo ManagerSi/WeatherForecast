@@ -15,7 +15,7 @@ namespace WeatherLib.Utility {
     private readonly Encoding encoder = Encoding.UTF8;
 
     public T Get<T>(string baseUrl, Dictionary<string, string> args) {
-      var queryUrl = baseUrl + "?" + args.ToQueryString();
+      var queryUrl = baseUrl + "?" + args.ToQueryString(Encoding.UTF8);
 
       var request = WebRequest.Create(queryUrl) as HttpWebRequest;
       request.Method = "GET";

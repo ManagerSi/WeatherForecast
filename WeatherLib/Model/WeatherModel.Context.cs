@@ -30,5 +30,7 @@ namespace WeatherLib.Model
         public DbSet<BASE_ROLE> BASE_ROLE { get; set; }
         public DbSet<BASE_USER_ROLE> BASE_USER_ROLE { get; set; }
         public DbSet<JD_Product> JD_Product { get; set; }
+        public DbSet<WeatherCity> WEATHER_CITY { get; set; }
+        public DbSet<WeatherDailyForecast> WEATHER_Daily_Forecast { get; set; }
     }
 }

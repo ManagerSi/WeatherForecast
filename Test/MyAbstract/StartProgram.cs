@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskTest.MyAbstract.Abstract;
 
 namespace TaskTest.MyAbstract {
   public  class StartProgram {
@@ -45,6 +46,26 @@ namespace TaskTest.MyAbstract {
 
       t.Pay();
 
+    }
+
+
+
+    public static void startMain1() {
+      Student st = new Student() { Id = 123,Name = "张三" };
+      {
+        BasePhone mi = new Mi();
+        st.PlayPhone(mi);
+      }
+      {
+        IExcent iphone = new Iphone();
+        //st.PlayPhone(iphone);
+      }
+      {
+        BasePhone b = new Iphone();
+        b.Show();//普通方法是由编译时类型决定  调用父类
+        b.ShowVirtual();//虚方法是由运行时类型决定的 调用子类
+        b.Call();//抽象也是 调用子类
+      }
     }
   }
 }
